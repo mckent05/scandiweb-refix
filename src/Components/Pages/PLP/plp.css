@@ -1,0 +1,5 @@
+.listing-page {
+    row-gap: 40px;
+    width: 90vw;
+    border: 2px solid green;
+}

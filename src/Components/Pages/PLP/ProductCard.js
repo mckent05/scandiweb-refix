@@ -1,27 +1,44 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-
-const mapDispatchToProps = () => ({
-  viewProductDetails,
-});
+import { FaShoppingCart } from "react-icons/fa";
 
 class ProductCard extends Component {
   static priceDisplay(selectedPrice, prices) {
-    <article>
-      {selectedPrice.length > 0 ? (
-        <p>
-          <span>{selectedPrice[0].currency.symbol}</span>
-          <span>{selectedPrice[0].amount}</span>
-        </p>
-      ) : (
-        <p>
-          <span>{prices[0].currency.symbol}</span>
-          <span>{prices[0].amount}</span>
-        </p>
-      )}
-    </article>;
+    return (
+      <article>
+        {selectedPrice.length > 0 ? (
+          <p>
+            <span>{selectedPrice[0].currency.symbol}</span>
+            <span>{selectedPrice[0].amount}</span>
+          </p>
+        ) : (
+          <p>
+            <span>{prices[0].currency.symbol}</span>
+            <span>{prices[0].amount}</span>
+          </p>
+        )}
+      </article>
+    );
+  }
+
+  static displayCartButton(stock) {
+    if (!stock) {
+      return (
+        <div className="attr-container">
+          <button type="button" disabled className="add">
+            <FaShoppingCart />
+          </button>
+        </div>
+      );
+    }
+    return (
+      <div className="attr-container">
+        <button type="button" className="add">
+          <FaShoppingCart />
+        </button>
+      </div>
+    );
   }
 
   render() {
@@ -41,13 +58,7 @@ class ProductCard extends Component {
           <h3 className="product-name">{productName}</h3>
           <div className="product-price">
             {ProductCard.priceDisplay(selectedPrice, prices)}
-            <article>
-              <Attributes
-                attr={attribute}
-                inStock={stock}
-                pName={productName}
-              />
-            </article>
+            {ProductCard.displayCartButton(stock)}
           </div>
         </div>
       </div>
@@ -59,10 +70,8 @@ ProductCard.propTypes = {
   prices: PropTypes.arrayOf(Object).isRequired,
   productName: PropTypes.string.isRequired,
   gallery: PropTypes.arrayOf(String).isRequired,
-  attribute: PropTypes.arrayOf(Object).isRequired,
   stock: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  viewProductDetails: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps())(ProductCard);
+export default ProductCard;
