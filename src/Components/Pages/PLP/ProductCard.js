@@ -1,7 +1,18 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { togglePopUp } from "../../../Redux/PLP/listingPage";
 import { BsCart } from "react-icons/bs";
+
+const mapStateToProps = (state) => ({
+  myState: state.productList,
+  headerState: state.category,
+});
+
+const mapDispatchToProps = () => ({
+  togglePopUp,
+});
 
 class ProductCard extends Component {
   static priceDisplay(selectedPrice, prices) {
@@ -22,19 +33,28 @@ class ProductCard extends Component {
     );
   }
 
-  static displayCartButton(stock) {
+  popUpToggle(productId) {
+    const { togglePopUp } = this.props;
+    togglePopUp(productId);
+  }
+
+  displayCartButton(stock, id) {
     if (!stock) {
       return (
         <div className="attr-container d-flex a-center">
           <button type="button" disabled className="add">
-            <BsCart className="cart-add-img" />
+            <BsCart />
           </button>
         </div>
       );
     }
     return (
       <div className="attr-container d-flex a-center">
-        <button type="button" className="add">
+        <button
+          type="button"
+          className="add"
+          onClick={() => this.popUpToggle(id)}
+        >
           <BsCart className="cart-add-img" />
         </button>
       </div>
@@ -62,7 +82,7 @@ class ProductCard extends Component {
           <h3 className="product-name">{productName}</h3>
           <div className="product-price">
             {ProductCard.priceDisplay(selectedPrice, prices)}
-            {ProductCard.displayCartButton(stock)}
+            {this.displayCartButton(stock, id)}
           </div>
         </div>
       </div>
@@ -78,4 +98,4 @@ ProductCard.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default ProductCard;
+export default connect(mapStateToProps, mapDispatchToProps())(ProductCard);

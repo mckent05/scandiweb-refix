@@ -5,7 +5,7 @@ import "./plp.css";
 
 class ListingPage extends Component {
   render() {
-    const { products, categoryName } = this.props;
+    const { products, categoryName, attr, popup } = this.props;
     return (
       <section className="listing-page d-flex f-col a-center j-center">
         <h1 className="category-name d-flex a-center">{categoryName}</h1>

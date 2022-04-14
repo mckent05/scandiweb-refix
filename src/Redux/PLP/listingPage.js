@@ -1,10 +1,13 @@
 const FETCH_PRODUCTS = "store/listingPage/FETCH_PRODUCTS";
 const UPDATE_LOADINGSTATE = "store/listingPage/UPDATE_LOADINGSTATE";
 const CURRENCY_SWITCHER = "store/listingPage/CURRENCY_SWITCHER";
+const ATTR_POPUP_TOGGLE = "store/listingPage/ATTR_POPUP_TOGGLE";
 
 const initialState = {
   allProducts: {},
   isLoading: true,
+  productAttr: [],
+  attrPopup: false,
 };
 
 const fetchProducts = (products) => ({
@@ -20,6 +23,11 @@ const setLoadingState = (payload) => ({
 export const toggleCurrency = (value) => ({
   type: CURRENCY_SWITCHER,
   payload: value,
+});
+
+export const togglePopUp = (productName) => ({
+  type: ATTR_POPUP_TOGGLE,
+  payload: productName,
 });
 
 export const getProducts = (product) => async (dispatch) => {
@@ -108,6 +116,15 @@ const productListReducer = (state = initialState, action) => {
           }),
         },
       };
+    case ATTR_POPUP_TOGGLE:
+      return {
+        ...state,
+        productAttr: state.allProducts.products.filter(
+          (product) => product.id === action.payload
+        ),
+        attrPopup: true,
+      };
+
     default:
       return state;
   }

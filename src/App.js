@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Routes, Route } from 'react-router-dom';
-import Header from './Components/Header';
-import { getProducts } from './Redux/PLP/listingPage';
-import { getCategories, getCurrency } from './Redux/PLP/header';
-import ListingPage from './Components/Pages/PLP/ListingPage';
-import './App.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Routes, Route } from "react-router-dom";
+import Header from "./Components/Header";
+import { getProducts } from "./Redux/PLP/listingPage";
+import { getCategories, getCurrency } from "./Redux/PLP/header";
+import ListingPage from "./Components/Pages/PLP/ListingPage";
+import "./App.css";
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -32,6 +32,8 @@ class App extends Component {
       myState: {
         allProducts: { name, products },
         isLoading,
+        productAttr,
+        attrPopup,
       },
       headerState: { categories, currencyDetails, cartOverlay },
     } = this.props;
@@ -54,7 +56,14 @@ class App extends Component {
                 <Route
                   exact
                   path="/"
-                  element={<ListingPage products={products} categoryName={name} />}
+                  element={
+                    <ListingPage
+                      products={products}
+                      categoryName={name}
+                      attr={productAttr}
+                      popup={attrPopup}
+                    />
+                  }
                 />
               </Routes>
             </div>
@@ -85,8 +94,7 @@ App.defaultProps = {
   currencyDetails: [],
   allProducts: {},
   isLoading: true,
-  cartOverlay: false
-
+  cartOverlay: false,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps())(App);
