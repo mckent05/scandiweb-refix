@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getProducts, toggleCurrency } from "../Redux/PLP/listingPage";
-import { FaShopify, FaShoppingCart } from "react-icons/fa";
+import { GiShoppingBag } from "react-icons/gi";
+import { BsCart } from "react-icons/bs";
 
 const mapDispatchToProps = () => ({
   getProducts,
@@ -15,7 +16,7 @@ class Header extends Component {
       <div className="shop-cart d-flex f-col a-center j-center">
         <p className="cart-badge d-flex a-center j-center">0</p>
         <button label="cart-control" type="button">
-          <FaShoppingCart />
+          <BsCart />
         </button>
       </div>
     );
@@ -55,7 +56,7 @@ class Header extends Component {
               </button>
             ))}
           </div>
-          <FaShopify className="nav-img" />
+          <GiShoppingBag className="nav-img" />
           <div className="cart-filter-currency d-flex a-center j-center">
             <select
               className="curr-filter"

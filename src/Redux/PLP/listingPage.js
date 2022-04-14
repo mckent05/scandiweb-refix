@@ -31,6 +31,15 @@ export const getProducts = (product) => async (dispatch) => {
         inStock
         name
         gallery
+        attributes {
+          id
+            name
+            items {
+              displayValue
+              value
+              id
+            }
+        }
         prices {
           currency {
             label
@@ -70,6 +79,13 @@ const productListReducer = (state = initialState, action) => {
             prices: product.prices.map((price) => ({
               ...price,
               selected: false,
+            })),
+            attributes: product.attributes.map((attr) => ({
+              ...attr,
+              items: attr.items.map((item) => ({
+                ...item,
+                selected: false,
+              })),
             })),
           })),
         },

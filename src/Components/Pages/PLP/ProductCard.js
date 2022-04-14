@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { FaShoppingCart } from "react-icons/fa";
+import { BsCart } from "react-icons/bs";
 
 class ProductCard extends Component {
   static priceDisplay(selectedPrice, prices) {
@@ -25,17 +25,17 @@ class ProductCard extends Component {
   static displayCartButton(stock) {
     if (!stock) {
       return (
-        <div className="attr-container">
+        <div className="attr-container d-flex a-center">
           <button type="button" disabled className="add">
-            <FaShoppingCart />
+            <BsCart className="cart-add-img" />
           </button>
         </div>
       );
     }
     return (
-      <div className="attr-container">
+      <div className="attr-container d-flex a-center">
         <button type="button" className="add">
-          <FaShoppingCart />
+          <BsCart className="cart-add-img" />
         </button>
       </div>
     );
@@ -47,7 +47,11 @@ class ProductCard extends Component {
     const selectedPrice = prices.filter((price) => price.selected === true);
 
     return (
-      <div className="products d-flex f-col a-center j-center">
+      <div
+        className="products d-flex f-col a-center j-center"
+        onMouseEnter={(e) => e.currentTarget.classList.add("display-add")}
+        onMouseLeave={(e) => e.currentTarget.classList.remove("display-add")}
+      >
         <Link to={`/product/${id}`}>
           <div className="img-link-cont d-flex a-center j-center">
             <img className="product-img" src={gallery[0]} alt="img" />

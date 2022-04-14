@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ProductCard from "./ProductCard";
-import './plp.css'
+import "./plp.css";
 
 class ListingPage extends Component {
   render() {
     const { products, categoryName } = this.props;
     return (
       <section className="listing-page d-flex f-col a-center j-center">
-        <h1 className="category-name">{categoryName}</h1>
+        <h1 className="category-name d-flex a-center">{categoryName}</h1>
         <div className="products-cont d-flex a-center">
           {products.map((product) => (
             <ProductCard
@@ -28,12 +28,12 @@ class ListingPage extends Component {
 
 ListingPage.propTypes = {
   products: PropTypes.arrayOf(Object),
-  name: PropTypes.string
+  name: PropTypes.string,
 };
 
 ListingPage.defaultProps = {
   products: [],
-  name: '',
-}
+  name: "",
+};
 
 export default ListingPage;

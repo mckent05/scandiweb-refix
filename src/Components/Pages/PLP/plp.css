@@ -1,5 +1,96 @@
 .listing-page {
-    row-gap: 40px;
-    width: 90vw;
-    border: 2px solid green;
+  row-gap: 20px;
+  margin-bottom: 50px;
+  width: 90vw;
+}
+
+.category-name {
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 50px;
+  font-size: 42px;
+  text-transform: capitalize;
+  color: #1d1f22;
+}
+
+.products-cont {
+  width: 100%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.products {
+  width: 286px;
+  height: 344px;
+  margin-top: 20px;
+  padding: 8px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.products:hover {
+  box-shadow: 0 2px 3px gainsboro;
+}
+
+.img-link-cont {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.product-img {
+  width: 200px;
+  height: 220px;
+}
+
+.out-of-stock {
+  position: absolute;
+  font-size: 30px;
+  color: #8d8f9a;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.product-details {
+  width: 90%;
+  row-gap: 3px;
+}
+
+.product-name {
+  color: #1d1f22;
+  font-size: 18px;
+}
+
+.product-price {
+  position: relative;
+}
+
+.attr-container {
+  position: absolute;
+  width: 100%;
+  top: -350%;
+  justify-content: flex-end;
+}
+
+.add {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: #52d67a;
+  right: 0;
+  margin-right: 15px;
+  display: none;
+  box-shadow: 0 4px 12px grey;
+}
+
+.display-add .add {
+  display: block;
+}
+
+.cart-add-img {
+  color: #fff;
+  transform: scale(1.5);
 }
