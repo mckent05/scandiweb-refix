@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { getProducts, toggleCurrency } from "../Redux/PLP/listingPage";
-import { GiShoppingBag } from "react-icons/gi";
-import { BsCart } from "react-icons/bs";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { GiShoppingBag } from 'react-icons/gi';
+import { BsCart } from 'react-icons/bs';
+import { getProducts, toggleCurrency } from '../Redux/PLP/listingPage';
 
 const mapDispatchToProps = () => ({
   getProducts,
@@ -24,12 +24,12 @@ class Header extends Component {
 
   filterCategory(e) {
     const { getProducts } = this.props;
-    const navBtn = document.querySelectorAll(".nav-btn");
+    const navBtn = document.querySelectorAll('.nav-btn');
     navBtn.forEach((btn) => {
-      btn.classList.remove("nav-color");
+      btn.classList.remove('nav-color');
     });
     const categoryValue = e.currentTarget.innerHTML;
-    e.currentTarget.classList.add("nav-color");
+    e.currentTarget.classList.add('nav-color');
     getProducts(categoryValue);
   }
 
@@ -64,7 +64,7 @@ class Header extends Component {
             >
               {currency.map((curr) => (
                 <option className="option" value={curr.symbol} key={curr.label}>
-                  {" "}
+                  {' '}
                   {`${curr.symbol}   ${curr.label}`}
                 </option>
               ))}

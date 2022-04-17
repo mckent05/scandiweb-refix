@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { togglePopUp } from "../../../Redux/PLP/listingPage";
-import { BsCart } from "react-icons/bs";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { BsCart } from 'react-icons/bs';
+import { togglePopUp } from '../../../Redux/PLP/listingPage';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -62,15 +62,17 @@ class ProductCard extends Component {
   }
 
   render() {
-    const { prices, productName, gallery, stock, id } = this.props;
+    const {
+      prices, productName, gallery, stock, id,
+    } = this.props;
 
     const selectedPrice = prices.filter((price) => price.selected === true);
 
     return (
       <div
         className="products d-flex f-col a-center j-center"
-        onMouseEnter={(e) => e.currentTarget.classList.add("display-add")}
-        onMouseLeave={(e) => e.currentTarget.classList.remove("display-add")}
+        onMouseEnter={(e) => e.currentTarget.classList.add('display-add')}
+        onMouseLeave={(e) => e.currentTarget.classList.remove('display-add')}
       >
         <Link to={`/product/${id}`}>
           <div className="img-link-cont d-flex a-center j-center">

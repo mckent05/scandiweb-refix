@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Routes, Route } from "react-router-dom";
-import Header from "./Components/Header";
-import { getProducts } from "./Redux/PLP/listingPage";
-import { getCategories, getCurrency } from "./Redux/PLP/header";
-import ListingPage from "./Components/Pages/PLP/ListingPage";
-import "./App.css";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Routes, Route } from 'react-router-dom';
+import Header from './Components/Header';
+import { getProducts, closePopup } from './Redux/PLP/listingPage';
+import { getCategories, getCurrency } from './Redux/PLP/header';
+import ListingPage from './Components/Pages/PLP/ListingPage';
+import './App.css';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -17,14 +17,24 @@ const mapDispatchToProps = () => ({
   getProducts,
   getCategories,
   getCurrency,
+  closePopup,
 });
 
 class App extends Component {
+
+  // handleScroll() {
+  //   const { closePopup } = this.props
+  //   console.log(window.scrollY)
+  //   if(window.scrollY > 200) {
+  //     closePopup(false)
+  //   }
+  // }
+
   componentDidMount() {
     const { getProducts, getCategories, getCurrency } = this.props;
     getCategories();
     getCurrency();
-    getProducts("all");
+    getProducts('all');
   }
 
   render() {
@@ -34,6 +44,7 @@ class App extends Component {
         isLoading,
         productAttr,
         attrPopup,
+        shoppingCart,
       },
       headerState: { categories, currencyDetails, cartOverlay },
     } = this.props;
@@ -56,14 +67,14 @@ class App extends Component {
                 <Route
                   exact
                   path="/"
-                  element={
+                  element={(
                     <ListingPage
                       products={products}
                       categoryName={name}
                       attr={productAttr}
                       popup={attrPopup}
                     />
-                  }
+                  )}
                 />
               </Routes>
             </div>

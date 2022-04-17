@@ -1,7 +1,6 @@
 const FETCH_CATEGORIES = 'store/listingPage/FETCH_CATEGORIES';
 const FETCH_CURRENCY = 'store/listingPage/FETCH_CURRENCY';
 
-
 const initialState = {
   categories: [],
   currencyDetails: [],
@@ -18,14 +17,13 @@ const fetchCurrency = (currencies) => ({
   payload: currencies,
 });
 
-
 export const getCategories = () => async (dispatch) => {
   const categoryQuery = `{
     categories {
       name
     }
     
-  }`;  
+  }`;
   const products = await fetch('http://localhost:4000', {
     method: 'POST',
     body: JSON.stringify({ query: categoryQuery }),
@@ -44,7 +42,7 @@ export const getCurrency = () => async (dispatch) => {
       symbol
     }
   }`;
-  
+
   const products = await fetch('http://localhost:4000', {
     method: 'POST',
     body: JSON.stringify({ query: currencyQuery }),

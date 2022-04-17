@@ -2,12 +2,18 @@ const FETCH_PRODUCTS = "store/listingPage/FETCH_PRODUCTS";
 const UPDATE_LOADINGSTATE = "store/listingPage/UPDATE_LOADINGSTATE";
 const CURRENCY_SWITCHER = "store/listingPage/CURRENCY_SWITCHER";
 const ATTR_POPUP_TOGGLE = "store/listingPage/ATTR_POPUP_TOGGLE";
+const CLOSE_POPUP = "store/listingPage/CLOSE_POPUP"
+const SELECT_ATTRIBUTE = "store/listingPage/SELECT_ATTRIBUTE";
+const ADD_TO_CART = "store/listingPage/ADD_TO_CART";
+const REMOVE_FROM_CART = "store/listingPage/REMOVE_FROM_CART"
 
 const initialState = {
   allProducts: {},
   isLoading: true,
   productAttr: [],
   attrPopup: false,
+  shoppingCart: [],
+  updatedCart: [],
 };
 
 const fetchProducts = (products) => ({
@@ -27,6 +33,26 @@ export const toggleCurrency = (value) => ({
 
 export const togglePopUp = (productName) => ({
   type: ATTR_POPUP_TOGGLE,
+  payload: productName,
+});
+
+export const closePopup = (payload) => ({
+  type: CLOSE_POPUP,
+  payload
+})
+
+export const attrSelector = (displayValue, attributeId) => ({
+  type: SELECT_ATTRIBUTE,
+  payload: { displayValue, attributeId },
+});
+
+export const addToCart = (productName) => ({
+  type: ADD_TO_CART,
+  payload: productName,
+});
+
+export const removeFromCart = (productName) => ({
+  type: REMOVE_FROM_CART,
   payload: productName,
 });
 
@@ -101,6 +127,7 @@ const productListReducer = (state = initialState, action) => {
     case CURRENCY_SWITCHER:
       return {
         ...state,
+        attrPopup: false,
         allProducts: {
           ...state.allProducts,
           products: state.allProducts.products.map((product) => {
@@ -123,6 +150,87 @@ const productListReducer = (state = initialState, action) => {
           (product) => product.id === action.payload
         ),
         attrPopup: true,
+      };
+
+      case CLOSE_POPUP:
+        return {
+          ...state,
+          attrPopup: action.payload
+        }
+
+    case SELECT_ATTRIBUTE:
+      console.log(action.payload.displayValue, action.payload.attributeId);
+      return {
+        ...state,
+        productAttr: state.productAttr.map((product) => {
+          product.attributes.forEach((attribute) => {
+            attribute.items.forEach((value) => {
+              if (
+                value.displayValue === action.payload.displayValue &&
+                attribute.id === action.payload.attributeId
+              ) {
+                attribute.items.forEach((val) => {
+                  if (val !== value) {
+                    val.selected = false;
+                  }
+                });
+                value.selected = true;
+              }
+            });
+          });
+          return product;
+        }),
+      };
+
+    case ADD_TO_CART:
+      const selectedProduct = state.allProducts.products.filter(
+        (product) => product.name === action.payload
+      );
+      const tope = selectedProduct.map((product) => ({
+        name: product.name,
+        id: product.id,
+        prices: product.prices,
+        gallery: product.gallery,
+        attributes: product.attributes.map((attr) => ({
+          ...attr,
+          items: attr.items.map((item) => ({
+            ...item,
+          })),
+        })),
+      }));
+      const existingProduct = state.shoppingCart.filter(
+        (pro) => pro.name === tope[0].name
+      );
+      if (existingProduct.length === 0) {
+        state.shoppingCart.push({
+          ...tope[0],
+          quantity: 1,
+        });
+      } else {
+        const existingAttribute = existingProduct.find((product) =>
+          product.attributes.every(
+            (attr, index) =>
+              JSON.stringify(attr) === JSON.stringify(tope[0].attributes[index])
+          )
+        );
+        if (existingAttribute) {
+          existingAttribute.quantity++;
+        } else {
+          state.shoppingCart.push({
+            ...tope[0],
+            quantity: 1,
+          });
+        }
+      }
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart,
+      };
+
+      case REMOVE_FROM_CART:
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.filter((product) => product.name !== action.payload),
       };
 
     default:
