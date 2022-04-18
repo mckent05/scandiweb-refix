@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { GiShoppingBag } from 'react-icons/gi';
-import { BsCart } from 'react-icons/bs';
-import { getProducts, toggleCurrency } from '../Redux/PLP/listingPage';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { GiShoppingBag } from "react-icons/gi";
+import { BsCart } from "react-icons/bs";
+import { getProducts, toggleCurrency } from "../Redux/PLP/listingPage";
+import { toggleCurrency2 } from "../Redux/PDP/descriptionPage";
 
 const mapDispatchToProps = () => ({
   getProducts,
   toggleCurrency,
+  toggleCurrency2,
 });
 
 class Header extends Component {
@@ -24,18 +26,18 @@ class Header extends Component {
 
   filterCategory(e) {
     const { getProducts } = this.props;
-    const navBtn = document.querySelectorAll('.nav-btn');
+    const navBtn = document.querySelectorAll(".nav-btn");
     navBtn.forEach((btn) => {
-      btn.classList.remove('nav-color');
+      btn.classList.remove("nav-color");
     });
     const categoryValue = e.currentTarget.innerHTML;
-    e.currentTarget.classList.add('nav-color');
+    e.currentTarget.classList.add("nav-color");
     getProducts(categoryValue);
   }
 
   currencySwitcher(value) {
-    const { toggleCurrency } = this.props;
-    toggleCurrency(value);
+    const { toggleCurrency, toggleCurency2 } = this.props;
+    toggleCurrency(value) || toggleCurency2(value);
   }
 
   render() {
@@ -45,9 +47,9 @@ class Header extends Component {
       <nav className="nav">
         <div className="nav-cont d-flex a-center">
           <div className="category d-flex">
-            {categories.map((category) => (
+            {categories.map((category, index) => (
               <button
-                className="nav-btn"
+                className={index === 0 ? "nav-btn nav-color" : "nav-btn"}
                 key={category.name}
                 type="button"
                 onClick={(e) => this.filterCategory(e)}
@@ -64,7 +66,7 @@ class Header extends Component {
             >
               {currency.map((curr) => (
                 <option className="option" value={curr.symbol} key={curr.label}>
-                  {' '}
+                  {" "}
                   {`${curr.symbol}   ${curr.label}`}
                 </option>
               ))}

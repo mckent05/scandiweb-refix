@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { FaTimes } from "react-icons/fa";
 import { attrSelector, addToCart } from "../../../Redux/PLP/listingPage";
 
 const mapStateToProps = (state) => ({
@@ -91,9 +90,9 @@ class Attributes extends Component {
           {attr.map((att) =>
             att.attributes.map((item) =>
               item.id === "Color" ? (
-                <>{this.displayColorAttribute(item)}</>
+                <div key={item.id}>{this.displayColorAttribute(item)}</div>
               ) : (
-                <>{this.displayOtherAttributes(item)}</>
+                <div key={item.id}>{this.displayOtherAttributes(item)}</div>
               )
             )
           )}

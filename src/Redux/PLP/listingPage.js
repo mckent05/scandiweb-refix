@@ -2,18 +2,17 @@ const FETCH_PRODUCTS = "store/listingPage/FETCH_PRODUCTS";
 const UPDATE_LOADINGSTATE = "store/listingPage/UPDATE_LOADINGSTATE";
 const CURRENCY_SWITCHER = "store/listingPage/CURRENCY_SWITCHER";
 const ATTR_POPUP_TOGGLE = "store/listingPage/ATTR_POPUP_TOGGLE";
-const CLOSE_POPUP = "store/listingPage/CLOSE_POPUP"
+const CLOSE_POPUP = "store/listingPage/CLOSE_POPUP";
 const SELECT_ATTRIBUTE = "store/listingPage/SELECT_ATTRIBUTE";
 const ADD_TO_CART = "store/listingPage/ADD_TO_CART";
-const REMOVE_FROM_CART = "store/listingPage/REMOVE_FROM_CART"
+const REMOVE_FROM_CART = "store/listingPage/REMOVE_FROM_CART";
 
-const initialState = {
+export const initialState = {
   allProducts: {},
   isLoading: true,
   productAttr: [],
   attrPopup: false,
   shoppingCart: [],
-  updatedCart: [],
 };
 
 const fetchProducts = (products) => ({
@@ -38,8 +37,8 @@ export const togglePopUp = (productName) => ({
 
 export const closePopup = (payload) => ({
   type: CLOSE_POPUP,
-  payload
-})
+  payload,
+});
 
 export const attrSelector = (displayValue, attributeId) => ({
   type: SELECT_ATTRIBUTE,
@@ -152,11 +151,11 @@ const productListReducer = (state = initialState, action) => {
         attrPopup: true,
       };
 
-      case CLOSE_POPUP:
-        return {
-          ...state,
-          attrPopup: action.payload
-        }
+    case CLOSE_POPUP:
+      return {
+        ...state,
+        attrPopup: action.payload,
+      };
 
     case SELECT_ATTRIBUTE:
       console.log(action.payload.displayValue, action.payload.attributeId);
@@ -188,7 +187,6 @@ const productListReducer = (state = initialState, action) => {
       );
       const tope = selectedProduct.map((product) => ({
         name: product.name,
-        id: product.id,
         prices: product.prices,
         gallery: product.gallery,
         attributes: product.attributes.map((attr) => ({
@@ -227,10 +225,12 @@ const productListReducer = (state = initialState, action) => {
         shoppingCart: state.shoppingCart,
       };
 
-      case REMOVE_FROM_CART:
+    case REMOVE_FROM_CART:
       return {
         ...state,
-        shoppingCart: state.shoppingCart.filter((product) => product.name !== action.payload),
+        shoppingCart: state.shoppingCart.filter(
+          (product) => product.name !== action.payload
+        ),
       };
 
     default:

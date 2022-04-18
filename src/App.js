@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Routes, Route } from 'react-router-dom';
-import Header from './Components/Header';
-import { getProducts, closePopup } from './Redux/PLP/listingPage';
-import { getCategories, getCurrency } from './Redux/PLP/header';
-import ListingPage from './Components/Pages/PLP/ListingPage';
-import './App.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Routes, Route } from "react-router-dom";
+import Header from "./Components/Header";
+import { getProducts, closePopup } from "./Redux/PLP/listingPage";
+import { getCategories, getCurrency } from "./Redux/PLP/header";
+import ListingPage from "./Components/Pages/PLP/ListingPage";
+import ProductDescPage from "./Components/Pages/PDP/ProductDescPage";
+import "./App.css";
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
   headerState: state.category,
+  descState: state.productDescription,
 });
 
 const mapDispatchToProps = () => ({
@@ -21,7 +23,6 @@ const mapDispatchToProps = () => ({
 });
 
 class App extends Component {
-
   // handleScroll() {
   //   const { closePopup } = this.props
   //   console.log(window.scrollY)
@@ -34,7 +35,7 @@ class App extends Component {
     const { getProducts, getCategories, getCurrency } = this.props;
     getCategories();
     getCurrency();
-    getProducts('all');
+    getProducts("all");
   }
 
   render() {
@@ -47,6 +48,7 @@ class App extends Component {
         shoppingCart,
       },
       headerState: { categories, currencyDetails, cartOverlay },
+      descState: { loading, productDetails, imageControl },
     } = this.props;
 
     return (
@@ -67,14 +69,25 @@ class App extends Component {
                 <Route
                   exact
                   path="/"
-                  element={(
+                  element={
                     <ListingPage
                       products={products}
                       categoryName={name}
                       attr={productAttr}
                       popup={attrPopup}
                     />
-                  )}
+                  }
+                />
+                <Route
+                  exact
+                  path="/product/:id"
+                  element={
+                    <ProductDescPage
+                      isLoading={loading}
+                      product={productDetails}
+                      imgControl={imageControl}
+                    />
+                  }
                 />
               </Routes>
             </div>

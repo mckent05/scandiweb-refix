@@ -64,7 +64,10 @@ const categoryReducer = (state = initialState, action) => {
     case FETCH_CURRENCY:
       return {
         ...state,
-        currencyDetails: action.payload.currencies,
+        currencyDetails: action.payload.currencies.map((currency) => ({
+          ...currency,
+          selected: false
+        })),
       };
     default:
       return state;

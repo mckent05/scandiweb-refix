@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { BsCart } from 'react-icons/bs';
-import { togglePopUp } from '../../../Redux/PLP/listingPage';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { BsCart } from "react-icons/bs";
+import { togglePopUp } from "../../../Redux/PLP/listingPage";
+import { getProductDetails } from "../../../Redux/PDP/descriptionPage";
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -12,6 +13,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = () => ({
   togglePopUp,
+  getProductDetails,
 });
 
 class ProductCard extends Component {
@@ -61,20 +63,22 @@ class ProductCard extends Component {
     );
   }
 
+  viewProduct(id) {
+    localStorage.setItem("id", JSON.stringify(id));
+  }
+
   render() {
-    const {
-      prices, productName, gallery, stock, id,
-    } = this.props;
+    const { prices, productName, gallery, stock, id } = this.props;
 
     const selectedPrice = prices.filter((price) => price.selected === true);
 
     return (
       <div
         className="products d-flex f-col a-center j-center"
-        onMouseEnter={(e) => e.currentTarget.classList.add('display-add')}
-        onMouseLeave={(e) => e.currentTarget.classList.remove('display-add')}
+        onMouseEnter={(e) => e.currentTarget.classList.add("display-add")}
+        onMouseLeave={(e) => e.currentTarget.classList.remove("display-add")}
       >
-        <Link to={`/product/${id}`}>
+        <Link to={`/product/${id}`} onClick={() => this.viewProduct(id)}>
           <div className="img-link-cont d-flex a-center j-center">
             <img className="product-img" src={gallery[0]} alt="img" />
             {stock || <h2 className="out-of-stock">Out of Stock</h2>}
