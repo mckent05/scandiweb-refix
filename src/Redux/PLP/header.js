@@ -1,5 +1,6 @@
-const FETCH_CATEGORIES = 'store/listingPage/FETCH_CATEGORIES';
-const FETCH_CURRENCY = 'store/listingPage/FETCH_CURRENCY';
+const FETCH_CATEGORIES = "store/listingPage/FETCH_CATEGORIES";
+const FETCH_CURRENCY = "store/listingPage/FETCH_CURRENCY";
+const CURRENCY_SWITCHER = "store/listingPage/CURRENCY_SWITCHER";
 
 const initialState = {
   categories: [],
@@ -17,6 +18,11 @@ const fetchCurrency = (currencies) => ({
   payload: currencies,
 });
 
+export const toggleCurrency = (value) => ({
+  type: CURRENCY_SWITCHER,
+  payload: value,
+});
+
 export const getCategories = () => async (dispatch) => {
   const categoryQuery = `{
     categories {
@@ -24,11 +30,11 @@ export const getCategories = () => async (dispatch) => {
     }
     
   }`;
-  const products = await fetch('http://localhost:4000', {
-    method: 'POST',
+  const products = await fetch("http://localhost:4000", {
+    method: "POST",
     body: JSON.stringify({ query: categoryQuery }),
     headers: {
-      'Content-type': 'application/json; charset=UTF-8',
+      "Content-type": "application/json; charset=UTF-8",
     },
   });
   const response = await products.json();
@@ -43,11 +49,11 @@ export const getCurrency = () => async (dispatch) => {
     }
   }`;
 
-  const products = await fetch('http://localhost:4000', {
-    method: 'POST',
+  const products = await fetch("http://localhost:4000", {
+    method: "POST",
     body: JSON.stringify({ query: currencyQuery }),
     headers: {
-      'Content-type': 'application/json; charset=UTF-8',
+      "Content-type": "application/json; charset=UTF-8",
     },
   });
   const response = await products.json();
@@ -66,8 +72,20 @@ const categoryReducer = (state = initialState, action) => {
         ...state,
         currencyDetails: action.payload.currencies.map((currency) => ({
           ...currency,
-          selected: false
+          selected: false,
         })),
+      };
+    case CURRENCY_SWITCHER:
+      return {
+        ...state,
+        currencyDetails: state.currencyDetails.map((currency) => {
+          if (currency.symbol === action.payload) {
+            currency.selected = true;
+          } else {
+            currency.selected = false;
+          }
+          return currency
+        }),
       };
     default:
       return state;

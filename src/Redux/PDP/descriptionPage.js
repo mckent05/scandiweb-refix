@@ -5,7 +5,6 @@ const UPDATE_LOADINGSTATE = "store/descriptionPage/UPDATE_LOADINGSTATE";
 const CONTROL_IMAGE_VIEW = "store/descriptionpage/CONTROL_IMAGE_VIEW";
 const SELECT_ATTRIBUTE = "store/descriptionPage/SELECT_ATTRIBUTE";
 const THUMBNAIL_CONTROL = "store/descriptionpage/THUMBNAIL_CONTROL";
-const CURRENCY_SWITCHER = "store/listingPage/CURRENCY_SWITCHER";
 const ADD_TO_CART = "store/descriptionPage/ADD_TO_CART";
 
 const initialState = {
@@ -37,11 +36,6 @@ export const attrSelector = (displayValue, attributeId) => ({
 export const controlThumbNail = (index) => ({
   type: THUMBNAIL_CONTROL,
   payload: index,
-});
-
-export const toggleCurrency2 = (value) => ({
-  type: CURRENCY_SWITCHER,
-  payload: value,
 });
 
 export const addToCart = () => ({
@@ -99,10 +93,6 @@ const productDescriptionReducer = (state = initialState, action) => {
         imageControl: 0,
         productDetails: {
           ...action.payload,
-          prices: action.payload.prices.map((price) => ({
-            ...price,
-            selected: false,
-          })),
           attributes: action.payload.attributes.map((attr) => ({
             ...attr,
             items: attr.items.map((item) => ({
@@ -156,21 +146,6 @@ const productDescriptionReducer = (state = initialState, action) => {
           }),
         },
       };
-    case CURRENCY_SWITCHER:
-      return {
-        ...state,
-        productDetails: {
-          ...state.productDetails,
-          prices: state.productDetails.prices.map((price) => {
-            if (price.currency.symbol === action.payload) {
-              price.selected = true;
-            } else {
-              price.selected = false;
-            }
-            return price;
-          }),
-        },
-    };
     case ADD_TO_CART:
       const productToAdd = {
         name: state.productDetails.name,

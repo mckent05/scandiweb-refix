@@ -1,6 +1,5 @@
 const FETCH_PRODUCTS = "store/listingPage/FETCH_PRODUCTS";
 const UPDATE_LOADINGSTATE = "store/listingPage/UPDATE_LOADINGSTATE";
-const CURRENCY_SWITCHER = "store/listingPage/CURRENCY_SWITCHER";
 const ATTR_POPUP_TOGGLE = "store/listingPage/ATTR_POPUP_TOGGLE";
 const CLOSE_POPUP = "store/listingPage/CLOSE_POPUP";
 const SELECT_ATTRIBUTE = "store/listingPage/SELECT_ATTRIBUTE";
@@ -23,11 +22,6 @@ const fetchProducts = (products) => ({
 const setLoadingState = (payload) => ({
   type: UPDATE_LOADINGSTATE,
   payload,
-});
-
-export const toggleCurrency = (value) => ({
-  type: CURRENCY_SWITCHER,
-  payload: value,
 });
 
 export const togglePopUp = (productName) => ({
@@ -109,10 +103,6 @@ const productListReducer = (state = initialState, action) => {
           name: action.payload.name,
           products: action.payload.products.map((product) => ({
             ...product,
-            prices: product.prices.map((price) => ({
-              ...price,
-              selected: false,
-            })),
             attributes: product.attributes.map((attr) => ({
               ...attr,
               items: attr.items.map((item) => ({
@@ -121,25 +111,6 @@ const productListReducer = (state = initialState, action) => {
               })),
             })),
           })),
-        },
-      };
-    case CURRENCY_SWITCHER:
-      return {
-        ...state,
-        attrPopup: false,
-        allProducts: {
-          ...state.allProducts,
-          products: state.allProducts.products.map((product) => {
-            product.prices.forEach((price) => {
-              if (price.currency.symbol === action.payload) {
-                price.selected = true;
-              } else {
-                price.selected = false;
-              }
-              return price;
-            });
-            return product;
-          }),
         },
       };
     case ATTR_POPUP_TOGGLE:

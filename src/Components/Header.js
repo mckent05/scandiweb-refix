@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { GiShoppingBag } from "react-icons/gi";
 import { BsCart } from "react-icons/bs";
-import { getProducts, toggleCurrency } from "../Redux/PLP/listingPage";
-import { toggleCurrency2 } from "../Redux/PDP/descriptionPage";
+import { getProducts } from "../Redux/PLP/listingPage";
+import { toggleCurrency } from "../Redux/PLP/header";
 
 const mapDispatchToProps = () => ({
   getProducts,
   toggleCurrency,
-  toggleCurrency2,
 });
 
 class Header extends Component {
@@ -36,8 +35,8 @@ class Header extends Component {
   }
 
   currencySwitcher(value) {
-    const { toggleCurrency, toggleCurency2 } = this.props;
-    toggleCurrency(value) || toggleCurency2(value);
+    const { toggleCurrency } = this.props;
+    toggleCurrency(value);
   }
 
   render() {
@@ -67,7 +66,7 @@ class Header extends Component {
               {currency.map((curr) => (
                 <option className="option" value={curr.symbol} key={curr.label}>
                   {" "}
-                  {`${curr.symbol}   ${curr.label}`}
+                  {`${curr.symbol} ${curr.label}`}
                 </option>
               ))}
             </select>

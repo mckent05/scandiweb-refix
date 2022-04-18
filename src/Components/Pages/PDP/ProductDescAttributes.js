@@ -9,6 +9,7 @@ import { attrSelector } from "../../../Redux/PDP/descriptionPage";
 const mapStateToProps = (state) => ({
   myState: state.productList,
   pdpSate: state.productDescription,
+  headerState: state.category,
 });
 
 const mapDispatchToProps = () => ({
@@ -42,20 +43,13 @@ class ProductDescAtrributes extends Component {
     }
   }
 
-  static priceDisplay(selectedPrice, prices) {
+  static priceDisplay(selectedPrice) {
     return (
       <article>
-        {selectedPrice.length > 0 ? (
-          <p>
-            <span>{selectedPrice[0].currency.symbol}</span>
-            <span>{selectedPrice[0].amount}</span>
-          </p>
-        ) : (
-          <p>
-            <span>{prices[0].currency.symbol}</span>
-            <span>{prices[0].amount}</span>
-          </p>
-        )}
+        <p>
+          <span>{selectedPrice[0].currency.symbol}</span>
+          <span>{selectedPrice[0].amount}</span>
+        </p>
       </article>
     );
   }
@@ -102,9 +96,27 @@ class ProductDescAtrributes extends Component {
 
   render() {
     const {
-      attr, prices, pName, inStock, description, brand
+      attr,
+      prices,
+      pName,
+      inStock,
+      description,
+      brand,
+      headerState: { currencyDetails },
     } = this.props;
-    const selectedPrice = prices.filter((price) => price.selected === true);
+    let selectedPrice;
+
+    const selectedCurrency = currencyDetails.filter(
+      (currency) => currency.selected === true
+    );
+
+    if (selectedCurrency.length > 0) {
+      selectedPrice = prices.filter(
+        (price) => price.currency.symbol === selectedCurrency[0].symbol
+      );
+    } else {
+      selectedPrice = prices;
+    }
 
     return (
       <div>
@@ -121,7 +133,7 @@ class ProductDescAtrributes extends Component {
         </article>
         <article>
           <h4>PRICE: </h4>
-          {ProductDescAtrributes.priceDisplay(selectedPrice, prices)}
+          {ProductDescAtrributes.priceDisplay(selectedPrice)}
           {inStock || <h3 className="desc-out-stock">OUT OF STOCK</h3>}
           {inStock ? (
             <div className="cart-btn-container d-flex a-center j-center">
@@ -134,7 +146,7 @@ class ProductDescAtrributes extends Component {
               </button>
             </div>
           ) : (
-            <button type="button" disabled className="add-to-cart">
+            <button type="button" disabled className="add-to-cart out-stock-btn">
               Add to Cart
             </button>
           )}

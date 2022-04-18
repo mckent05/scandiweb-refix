@@ -17,20 +17,13 @@ const mapDispatchToProps = () => ({
 });
 
 class ProductCard extends Component {
-  static priceDisplay(selectedPrice, prices) {
+  static priceDisplay(selectedPrice) {
     return (
       <article>
-        {selectedPrice.length > 0 ? (
-          <p>
-            <span>{selectedPrice[0].currency.symbol}</span>
-            <span>{selectedPrice[0].amount}</span>
-          </p>
-        ) : (
-          <p>
-            <span>{prices[0].currency.symbol}</span>
-            <span>{prices[0].amount}</span>
-          </p>
-        )}
+        <p>
+          <span>{selectedPrice[0].currency.symbol}</span>
+          <span>{selectedPrice[0].amount}</span>
+        </p>
       </article>
     );
   }
@@ -68,10 +61,28 @@ class ProductCard extends Component {
   }
 
   render() {
-    const { prices, productName, gallery, stock, id } = this.props;
+    const {
+      prices,
+      productName,
+      gallery,
+      stock,
+      id,
+      headerState: { currencyDetails },
+    } = this.props;
 
-    const selectedPrice = prices.filter((price) => price.selected === true);
+    let selectedPrice
 
+    const selectedCurrency = currencyDetails.filter(
+      (currency) => currency.selected === true
+    );
+
+    if (selectedCurrency.length > 0){
+       selectedPrice = prices.filter(
+        (price) => price.currency.symbol === selectedCurrency[0].symbol
+      );
+    } else {
+      selectedPrice = prices
+    }
     return (
       <div
         className="products d-flex f-col a-center j-center"
@@ -87,7 +98,7 @@ class ProductCard extends Component {
         <div className="product-details d-flex f-col">
           <h3 className="product-name">{productName}</h3>
           <div className="product-price">
-            {ProductCard.priceDisplay(selectedPrice, prices)}
+            {ProductCard.priceDisplay(selectedPrice)}
             {this.displayCartButton(stock, id)}
           </div>
         </div>
