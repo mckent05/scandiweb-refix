@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { attrSelector, addToCart } from "../../../Redux/PLP/listingPage";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { attrSelector, addToCart } from '../../../Redux/PLP/listingPage';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -23,14 +23,14 @@ class Attributes extends Component {
 
   addProductTocart(productName, attr) {
     const { addToCart } = this.props;
-    const checkAttribute = attr[0].attributes.every((property) =>
-      property.items.some((item) => item.selected === true)
+    const checkAttribute = attr[0].attributes.every(
+      (property) => property.items.some((item) => item.selected === true),
     );
     if (checkAttribute) {
       addToCart(productName);
     } else {
       window.alert(
-        `Please select a value for all attributes for ${attr[0].name}`
+        `Please select a value for all attributes for ${attr[0].name}`,
       );
     }
   }
@@ -44,7 +44,7 @@ class Attributes extends Component {
             <button
               type="button"
               onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? "attr-btn selected-color" : "attr-btn"}
+              className={size.selected ? 'attr-btn selected-color' : 'attr-btn'}
               key={size.id}
               style={{ backgroundColor: size.displayValue }}
             />
@@ -63,10 +63,10 @@ class Attributes extends Component {
             <button
               type="button"
               onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? "attr-btn selected-size" : "attr-btn"}
+              className={size.selected ? 'attr-btn selected-size' : 'attr-btn'}
               key={size.id}
             >
-              {" "}
+              {' '}
               {size.value}
             </button>
           ))}
@@ -79,7 +79,7 @@ class Attributes extends Component {
     const { attr, popup } = this.props;
 
     return (
-      <div className={popup ? "attr-popup show-popup" : "attr-popup"}>
+      <div className={popup ? 'attr-popup show-popup' : 'attr-popup'}>
         <article className="add-attr f-col a-center j-center">
           <div className="attr-close d-flex f-col a-center j-center">
             <h2 className="attr-product-name">{attr[0].name}</h2>
@@ -87,15 +87,11 @@ class Attributes extends Component {
               Select an Attribute
             </h3>
           </div>
-          {attr.map((att) =>
-            att.attributes.map((item) =>
-              item.id === "Color" ? (
-                <div key={item.id}>{this.displayColorAttribute(item)}</div>
-              ) : (
-                <div key={item.id}>{this.displayOtherAttributes(item)}</div>
-              )
-            )
-          )}
+          {attr.map((att) => att.attributes.map((item) => (item.id === 'Color' ? (
+            <div key={item.id}>{this.displayColorAttribute(item)}</div>
+          ) : (
+            <div key={item.id}>{this.displayOtherAttributes(item)}</div>
+          ))))}
           <div className="cart-btn-container d-flex a-center j-center">
             <button
               type="button"
@@ -112,6 +108,7 @@ class Attributes extends Component {
 }
 
 Attributes.propTypes = {
+  addToCart: PropTypes.func.isRequired,
   attrSelector: PropTypes.func.isRequired,
   attr: PropTypes.arrayOf(Object),
   popup: PropTypes.bool.isRequired,

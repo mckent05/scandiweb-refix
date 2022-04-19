@@ -1,6 +1,8 @@
-const FETCH_CATEGORIES = "store/listingPage/FETCH_CATEGORIES";
-const FETCH_CURRENCY = "store/listingPage/FETCH_CURRENCY";
-const CURRENCY_SWITCHER = "store/listingPage/CURRENCY_SWITCHER";
+/* eslint-disable no-param-reassign */
+
+const FETCH_CATEGORIES = 'store/listingPage/FETCH_CATEGORIES';
+const FETCH_CURRENCY = 'store/listingPage/FETCH_CURRENCY';
+const CURRENCY_SWITCHER = 'store/listingPage/CURRENCY_SWITCHER';
 
 const initialState = {
   categories: [],
@@ -30,11 +32,11 @@ export const getCategories = () => async (dispatch) => {
     }
     
   }`;
-  const products = await fetch("http://localhost:4000", {
-    method: "POST",
+  const products = await fetch('http://localhost:4000', {
+    method: 'POST',
     body: JSON.stringify({ query: categoryQuery }),
     headers: {
-      "Content-type": "application/json; charset=UTF-8",
+      'Content-type': 'application/json; charset=UTF-8',
     },
   });
   const response = await products.json();
@@ -49,11 +51,11 @@ export const getCurrency = () => async (dispatch) => {
     }
   }`;
 
-  const products = await fetch("http://localhost:4000", {
-    method: "POST",
+  const products = await fetch('http://localhost:4000', {
+    method: 'POST',
     body: JSON.stringify({ query: currencyQuery }),
     headers: {
-      "Content-type": "application/json; charset=UTF-8",
+      'Content-type': 'application/json; charset=UTF-8',
     },
   });
   const response = await products.json();
@@ -84,7 +86,7 @@ const categoryReducer = (state = initialState, action) => {
           } else {
             currency.selected = false;
           }
-          return currency
+          return currency;
         }),
       };
     default:
@@ -93,3 +95,5 @@ const categoryReducer = (state = initialState, action) => {
 };
 
 export default categoryReducer;
+
+/* eslint-enable no-param-reassign */

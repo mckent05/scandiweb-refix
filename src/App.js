@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Routes, Route } from "react-router-dom";
-import Header from "./Components/Header";
-import { getProducts, closePopup } from "./Redux/PLP/listingPage";
-import { getCategories, getCurrency } from "./Redux/PLP/header";
-import ListingPage from "./Components/Pages/PLP/ListingPage";
-import ProductDescPage from "./Components/Pages/PDP/ProductDescPage";
-import "./App.css";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Routes, Route } from 'react-router-dom';
+import Header from './Components/Header';
+import { getProducts, closePopup } from './Redux/PLP/listingPage';
+import { getCategories, getCurrency } from './Redux/PLP/header';
+import ListingPage from './Components/Pages/PLP/ListingPage';
+import ProductDescPage from './Components/Pages/PDP/ProductDescPage';
+import './App.css';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -35,7 +35,7 @@ class App extends Component {
     const { getProducts, getCategories, getCurrency } = this.props;
     getCategories();
     getCurrency();
-    getProducts("all");
+    getProducts('all');
   }
 
   render() {
@@ -63,31 +63,32 @@ class App extends Component {
               categories={categories}
               currency={currencyDetails}
               overlay={cartOverlay}
+              cart={shoppingCart}
             />
             <div className="product-cont-home d-flex a-center j-center">
               <Routes>
                 <Route
                   exact
                   path="/"
-                  element={
+                  element={(
                     <ListingPage
                       products={products}
                       categoryName={name}
                       attr={productAttr}
                       popup={attrPopup}
                     />
-                  }
+                  )}
                 />
                 <Route
                   exact
                   path="/product/:id"
-                  element={
+                  element={(
                     <ProductDescPage
                       isLoading={loading}
                       product={productDetails}
                       imgControl={imageControl}
                     />
-                  }
+                  )}
                 />
               </Routes>
             </div>
@@ -101,24 +102,39 @@ class App extends Component {
 App.propTypes = {
   myState: PropTypes.objectOf(String).isRequired,
   headerState: PropTypes.objectOf(String).isRequired,
+  descState: PropTypes.objectOf(String),
+  closePopup: PropTypes.func.isRequired,
   allProducts: PropTypes.objectOf(String),
   getCurrency: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(Object),
+  productAttr: PropTypes.objectOf(String),
+  name: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
   isLoading: PropTypes.bool,
   cartOverlay: PropTypes.bool,
   getProducts: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(Object),
   currencyDetails: PropTypes.arrayOf(Object),
+  shoppingCart: PropTypes.arrayOf(Object),
+  imageControl: PropTypes.number.isRequired,
+  productDetails: PropTypes.objectOf(String),
+  attrPopup: PropTypes.bool,
 };
 
 App.defaultProps = {
   products: [],
+  descState: {},
   categories: [],
   currencyDetails: [],
   allProducts: {},
   isLoading: true,
+  loading: true,
+  attrPopup: false,
   cartOverlay: false,
+  productAttr: {},
+  shoppingCart: [],
+  productDetails: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps())(App);

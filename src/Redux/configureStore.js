@@ -3,12 +3,12 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import productListReducer from './PLP/listingPage';
 import categoryReducer from './PLP/header';
-import productDescriptionReducer from "./PDP/descriptionPage";
+import productDescriptionReducer from './PDP/descriptionPage';
 
 const reducer = combineReducers({
   productList: productListReducer,
   category: categoryReducer,
-  productDescription: productDescriptionReducer
+  productDescription: productDescriptionReducer,
 
 });
 

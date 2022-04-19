@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { addToCart } from "../../../Redux/PDP/descriptionPage";
-import { attrSelector } from "../../../Redux/PDP/descriptionPage";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addToCart, attrSelector } from '../../../Redux/PDP/descriptionPage';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -19,28 +18,9 @@ const mapDispatchToProps = () => ({
 
 class ProductDescAtrributes extends Component {
   static htmlParser(description) {
-    let doc = document.createElement("div");
+    const doc = document.createElement('div');
     doc.innerHTML = description;
     return doc.innerHTML;
-  }
-
-  selectAttribute(displayValue, id) {
-    const { attrSelector } = this.props;
-    attrSelector(displayValue, id);
-  }
-
-  addProductToCart(productName, attr) {
-    const { addToCart } = this.props;
-    const checkAttribute = attr.every((property) =>
-      property.items.some((item) => item.selected === true)
-    );
-    if (checkAttribute) {
-      addToCart();
-    } else {
-      window.alert(
-        `Please select a value for all attributes for ${productName}`
-      );
-    }
   }
 
   static priceDisplay(selectedPrice) {
@@ -54,6 +34,25 @@ class ProductDescAtrributes extends Component {
     );
   }
 
+  addProductToCart(productName, attr) {
+    const { addToCart } = this.props;
+    const checkAttribute = attr.every(
+      (property) => property.items.some((item) => item.selected === true),
+    );
+    if (checkAttribute) {
+      addToCart();
+    } else {
+      window.alert(
+        `Please select a value for all attributes for ${productName}`,
+      );
+    }
+  }
+
+  selectAttribute(displayValue, id) {
+    const { attrSelector } = this.props;
+    attrSelector(displayValue, id);
+  }
+
   displayColorAttribute(item) {
     return (
       <div className="attr-list d-flex j-center a-center f-col" key={item.id}>
@@ -63,7 +62,7 @@ class ProductDescAtrributes extends Component {
             <button
               type="button"
               onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? "attr-btn selected-color" : "attr-btn"}
+              className={size.selected ? 'attr-btn selected-color' : 'attr-btn'}
               key={size.id}
               style={{ backgroundColor: size.displayValue }}
             />
@@ -82,10 +81,10 @@ class ProductDescAtrributes extends Component {
             <button
               type="button"
               onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? "attr-btn selected-size" : "attr-btn"}
+              className={size.selected ? 'attr-btn selected-size' : 'attr-btn'}
               key={size.id}
             >
-              {" "}
+              {' '}
               {size.value}
             </button>
           ))}
@@ -107,12 +106,12 @@ class ProductDescAtrributes extends Component {
     let selectedPrice;
 
     const selectedCurrency = currencyDetails.filter(
-      (currency) => currency.selected === true
+      (currency) => currency.selected === true,
     );
 
     if (selectedCurrency.length > 0) {
       selectedPrice = prices.filter(
-        (price) => price.currency.symbol === selectedCurrency[0].symbol
+        (price) => price.currency.symbol === selectedCurrency[0].symbol,
       );
     } else {
       selectedPrice = prices;
@@ -123,17 +122,15 @@ class ProductDescAtrributes extends Component {
         <article className="attr attr-desc d-flex f-col">
           <h2>{brand}</h2>
           <h3 className="pdp-product-name">{pName}</h3>
-          {attr.map((item) =>
-            item.id === "Color" ? (
-              <div className="pdp-color-attr d-flex " key={item.id}>
-                {this.displayColorAttribute(item)}
-              </div>
-            ) : (
-              <div className="pdp-other-attr" key={item.id}>
-                {this.displayOtherAttributes(item)}
-              </div>
-            )
-          )}
+          {attr.map((item) => (item.id === 'Color' ? (
+            <div className="pdp-color-attr d-flex " key={item.id}>
+              {this.displayColorAttribute(item)}
+            </div>
+          ) : (
+            <div className="pdp-other-attr" key={item.id}>
+              {this.displayOtherAttributes(item)}
+            </div>
+          )))}
         </article>
         <article className="price-details">
           <h4>PRICE: </h4>
@@ -164,11 +161,23 @@ class ProductDescAtrributes extends Component {
   }
 }
 
-ProductDescAtrributes.propTypes = {};
+ProductDescAtrributes.propTypes = {
+  headerState: PropTypes.objectOf(String),
+  attrSelector: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  attr: PropTypes.arrayOf(String).isRequired,
+  prices: PropTypes.arrayOf(String).isRequired,
+  pName: PropTypes.string.isRequired,
+  inStock: PropTypes.bool.isRequired,
+  description: PropTypes.string.isRequired,
+  brand: PropTypes.string.isRequired,
+};
 
-ProductDescAtrributes.defaultProps = {};
+ProductDescAtrributes.defaultProps = {
+  headerState: {},
+};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps()
+  mapDispatchToProps(),
 )(ProductDescAtrributes);

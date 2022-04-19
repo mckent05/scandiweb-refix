@@ -1,12 +1,12 @@
 /* eslint-disable react/prefer-stateless-function */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import ProductImage from "./ProductImage";
-import ProductDescAttributes from "./ProductDescAttributes";
-import { getProductDetails } from "../../../Redux/PDP/descriptionPage";
-import "./pdp.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import ProductImage from './ProductImage';
+import ProductDescAttributes from './ProductDescAttributes';
+import { getProductDetails } from '../../../Redux/PDP/descriptionPage';
+import './pdp.css';
 
 const mapDispatchToProps = () => ({
   getProductDetails,
@@ -14,7 +14,7 @@ const mapDispatchToProps = () => ({
 
 class ProductDescPage extends Component {
   componentDidMount() {
-    const id = JSON.parse(localStorage.getItem("id"));
+    const id = JSON.parse(localStorage.getItem('id'));
     const { getProductDetails } = this.props;
     getProductDetails(id);
   }
@@ -50,6 +50,14 @@ class ProductDescPage extends Component {
   }
 }
 
-ProductDescPage.propTypes = {};
+ProductDescPage.propTypes = {
+  getProductDetails: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  imgControl: PropTypes.number.isRequired,
+  product: PropTypes.objectOf(String),
+};
 
+ProductDescPage.defaultProps = {
+  product: {},
+};
 export default connect(null, mapDispatchToProps())(ProductDescPage);

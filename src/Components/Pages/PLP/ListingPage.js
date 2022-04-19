@@ -1,12 +1,16 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Attributes from "./Attributes";
-import ProductCard from "./ProductCard";
-import "./plp.css";
+/* eslint-disable react/prefer-stateless-function */
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Attributes from './Attributes';
+import ProductCard from './ProductCard';
+import './plp.css';
 
 class ListingPage extends Component {
   render() {
-    const { products, categoryName, attr, popup } = this.props;
+    const {
+      products, categoryName, attr, popup,
+    } = this.props;
     return (
       <section className="listing-page d-flex f-col a-center j-center">
         {popup && <Attributes attr={attr} popup={popup} />}
@@ -30,12 +34,17 @@ class ListingPage extends Component {
 
 ListingPage.propTypes = {
   products: PropTypes.arrayOf(Object),
-  name: PropTypes.string,
+  attr: PropTypes.arrayOf(Object),
+  categoryName: PropTypes.string,
+  popup: PropTypes.bool.isRequired,
 };
 
 ListingPage.defaultProps = {
   products: [],
-  name: "",
+  categoryName: '',
+  attr: [],
 };
 
 export default ListingPage;
+
+/* eslint-enable react/prefer-stateless-function */

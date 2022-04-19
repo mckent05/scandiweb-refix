@@ -1,11 +1,15 @@
-import { initialState as plpState } from "../PLP/listingPage";
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-plusplus */
 
-const GET_PRODUCT_DETAILS = "store/descriptionPage/GET_PRODUCT_DETAILS";
-const UPDATE_LOADINGSTATE = "store/descriptionPage/UPDATE_LOADINGSTATE";
-const CONTROL_IMAGE_VIEW = "store/descriptionpage/CONTROL_IMAGE_VIEW";
-const SELECT_ATTRIBUTE = "store/descriptionPage/SELECT_ATTRIBUTE";
-const THUMBNAIL_CONTROL = "store/descriptionpage/THUMBNAIL_CONTROL";
-const ADD_TO_CART = "store/descriptionPage/ADD_TO_CART";
+import { initialState as plpState } from '../PLP/listingPage';
+
+const GET_PRODUCT_DETAILS = 'store/descriptionPage/GET_PRODUCT_DETAILS';
+const UPDATE_LOADINGSTATE = 'store/descriptionPage/UPDATE_LOADINGSTATE';
+const CONTROL_IMAGE_VIEW = 'store/descriptionpage/CONTROL_IMAGE_VIEW';
+const SELECT_ATTRIBUTE = 'store/descriptionPage/SELECT_ATTRIBUTE';
+const THUMBNAIL_CONTROL = 'store/descriptionpage/THUMBNAIL_CONTROL';
+const ADD_TO_CART = 'store/descriptionPage/ADD_TO_CART';
 
 const initialState = {
   productDetails: {},
@@ -68,11 +72,11 @@ export const getProductDetails = (productID) => async (dispatch) => {
             }
         }
     }`;
-  const products = await fetch("http://localhost:4000", {
-    method: "POST",
+  const products = await fetch('http://localhost:4000', {
+    method: 'POST',
     body: JSON.stringify({ query: detailsQuery }),
     headers: {
-      "Content-type": "application/json; charset=UTF-8",
+      'Content-type': 'application/json; charset=UTF-8',
     },
   });
   const response = await products.json();
@@ -103,7 +107,7 @@ const productDescriptionReducer = (state = initialState, action) => {
         },
       };
     case CONTROL_IMAGE_VIEW:
-      if (action.payload.action === "right") {
+      if (action.payload.action === 'right') {
         state.imageControl += 1;
         if (state.imageControl > action.payload.galleryLength - 1) {
           state.imageControl = 0;
@@ -123,7 +127,6 @@ const productDescriptionReducer = (state = initialState, action) => {
         imageControl: action.payload,
       };
     case SELECT_ATTRIBUTE:
-      console.log(action.payload.displayValue, action.payload.attributeId);
       return {
         ...state,
         productDetails: {
@@ -131,8 +134,8 @@ const productDescriptionReducer = (state = initialState, action) => {
           attributes: state.productDetails.attributes.map((attribute) => {
             attribute.items.forEach((value) => {
               if (
-                value.displayValue === action.payload.displayValue &&
-                attribute.id === action.payload.attributeId
+                value.displayValue === action.payload.displayValue
+                && attribute.id === action.payload.attributeId
               ) {
                 attribute.items.forEach((val) => {
                   if (val !== value) {
@@ -159,7 +162,7 @@ const productDescriptionReducer = (state = initialState, action) => {
         })),
       };
       const existingProduct = plpState.shoppingCart.filter(
-        (pro) => pro.name === productToAdd.name
+        (pro) => pro.name === productToAdd.name,
       );
       if (existingProduct.length === 0) {
         plpState.shoppingCart.push({
@@ -167,13 +170,10 @@ const productDescriptionReducer = (state = initialState, action) => {
           quantity: 1,
         });
       } else {
-        const existingAttribute = existingProduct.find((product) =>
-          product.attributes.every(
-            (attr, index) =>
-              JSON.stringify(attr) ===
-              JSON.stringify(productToAdd.attributes[index])
-          )
-        );
+        const existingAttribute = existingProduct.find((product) => product.attributes.every(
+          (attr, index) => JSON.stringify(attr)
+              === JSON.stringify(productToAdd.attributes[index]),
+        ));
         if (existingAttribute) {
           existingAttribute.quantity++;
         } else {
@@ -184,13 +184,16 @@ const productDescriptionReducer = (state = initialState, action) => {
         }
       }
       return {
-          ...state
-      }
+        ...state,
+      };
 
-    
     default:
       return state;
   }
 };
 
 export default productDescriptionReducer;
+
+/* eslint-enable no-param-reassign */
+/* eslint-enable no-case-declarations */
+/* eslint-enable no-plusplus */

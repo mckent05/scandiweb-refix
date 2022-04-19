@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { BsCart } from "react-icons/bs";
-import { togglePopUp, closePopup } from "../../../Redux/PLP/listingPage";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { BsCart } from 'react-icons/bs';
+import { togglePopUp, closePopup } from '../../../Redux/PLP/listingPage';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -57,7 +57,7 @@ class ProductCard extends Component {
 
   viewProduct(id) {
     const { closePopup } = this.props;
-    localStorage.setItem("id", JSON.stringify(id));
+    localStorage.setItem('id', JSON.stringify(id));
     closePopup(false);
   }
 
@@ -74,12 +74,12 @@ class ProductCard extends Component {
     let selectedPrice;
 
     const selectedCurrency = currencyDetails.filter(
-      (currency) => currency.selected === true
+      (currency) => currency.selected === true,
     );
 
     if (selectedCurrency.length > 0) {
       selectedPrice = prices.filter(
-        (price) => price.currency.symbol === selectedCurrency[0].symbol
+        (price) => price.currency.symbol === selectedCurrency[0].symbol,
       );
     } else {
       selectedPrice = prices;
@@ -87,8 +87,8 @@ class ProductCard extends Component {
     return (
       <div
         className="products d-flex f-col a-center j-center"
-        onMouseEnter={(e) => e.currentTarget.classList.add("display-add")}
-        onMouseLeave={(e) => e.currentTarget.classList.remove("display-add")}
+        onMouseEnter={(e) => e.currentTarget.classList.add('display-add')}
+        onMouseLeave={(e) => e.currentTarget.classList.remove('display-add')}
       >
         <Link to={`/product/${id}`} onClick={() => this.viewProduct(id)}>
           <div className="img-link-cont d-flex a-center j-center">
@@ -109,11 +109,20 @@ class ProductCard extends Component {
 }
 
 ProductCard.propTypes = {
+  headerState: PropTypes.objectOf(String),
+  togglePopUp: PropTypes.func.isRequired,
+  closePopup: PropTypes.func.isRequired,
+  currencyDetails: PropTypes.arrayOf(String),
   prices: PropTypes.arrayOf(Object).isRequired,
   productName: PropTypes.string.isRequired,
   gallery: PropTypes.arrayOf(String).isRequired,
   stock: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
+};
+
+ProductCard.defaultProps = {
+  headerState: {},
+  currencyDetails: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps())(ProductCard);
