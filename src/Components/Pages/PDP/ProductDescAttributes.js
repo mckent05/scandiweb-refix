@@ -76,8 +76,8 @@ class ProductDescAtrributes extends Component {
   displayOtherAttributes(item) {
     return (
       <div className="attr-list d-flex j-center a-center f-col" key={item.id}>
-        <h3>{`${item.id}: `}</h3>
-        <div className="attr-btn-cont d-flex a-center j-center">
+        <h3 className="other-attr-id">{`${item.id}: `}</h3>
+        <div className="attr-btn-cont other-attr-btn d-flex">
           {item.items.map((size) => (
             <button
               type="button"
@@ -121,17 +121,21 @@ class ProductDescAtrributes extends Component {
     return (
       <div>
         <article className="attr attr-desc d-flex f-col">
-          <h2>{pName}</h2>
-          <h3>{brand}</h3>
+          <h2>{brand}</h2>
+          <h3 className="pdp-product-name">{pName}</h3>
           {attr.map((item) =>
             item.id === "Color" ? (
-              <div key={item.id}>{this.displayColorAttribute(item)}</div>
+              <div className="pdp-color-attr d-flex " key={item.id}>
+                {this.displayColorAttribute(item)}
+              </div>
             ) : (
-              <div key={item.id}>{this.displayOtherAttributes(item)}</div>
+              <div className="pdp-other-attr" key={item.id}>
+                {this.displayOtherAttributes(item)}
+              </div>
             )
           )}
         </article>
-        <article>
+        <article className="price-details">
           <h4>PRICE: </h4>
           {ProductDescAtrributes.priceDisplay(selectedPrice)}
           {inStock || <h3 className="desc-out-stock">OUT OF STOCK</h3>}
@@ -146,11 +150,14 @@ class ProductDescAtrributes extends Component {
               </button>
             </div>
           ) : (
-            <button type="button" disabled className="add-to-cart out-stock-btn">
+            <button
+              type="button"
+              disabled
+              className="add-to-cart out-stock-btn"
+            >
               Add to Cart
             </button>
           )}
-          {ProductDescAtrributes.htmlParser(description)}
         </article>
       </div>
     );

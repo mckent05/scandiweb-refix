@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa';
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
   controlImage,
   controlThumbNail,
@@ -17,32 +17,40 @@ const mapDispatchToProps = () => ({
 });
 
 class ProductImage extends Component {
-  scrollPicture(action, length) {
+  scrollPicture(action, length, index) {
     const { controlImage } = this.props;
     controlImage(action, length);
   }
 
-  imgThumbnailControl(imgIndex) {
+  imgThumbnailControl(e, imgIndex) {
     const { controlThumbNail } = this.props;
+    const images = document.querySelectorAll(".preview-img");
+    images.forEach((image) => {
+      image.classList.remove("thumb-color");
+    });
+    e.currentTarget.classList.add("thumb-color");
     controlThumbNail(imgIndex);
   }
 
   render() {
-    const { imgGallery, imgControl } = this.props
+    const { imgGallery, imgControl } = this.props;
+
     return (
-      <section className="cart-image d-flex f-col a-center j-center">
-        <div className="img-thumbnail">
+      <section className="pdp-thumb-img d-flex">
+        <div className="img-thumbnail d-flex f-col a-center">
           {imgGallery.map((image, index) => (
             <img
               key={image}
               src={image}
               alt="product-img"
-              className="preview-img"
-              onClick={() => this.imgThumbnailControl(index)}
+              className={
+                index === imgControl ? "preview-img thumb-color" : "preview-img"
+              }
+              onClick={(e) => this.imgThumbnailControl(e, index)}
             />
           ))}
         </div>
-        <div className="img">
+        <div className="pdp-desc-img">
           <img
             src={imgGallery[imgControl]}
             alt="product-img"
@@ -56,11 +64,12 @@ class ProductImage extends Component {
                 onClick={(e) =>
                   this.scrollPicture(
                     e.currentTarget.classList[0],
-                    imgGallery.length
+                    imgGallery.length,
+                    imgControl
                   )
                 }
               >
-                <FaArrowCircleLeft />
+                <AiOutlineLeft />
               </button>
               <button
                 type="button"
@@ -68,11 +77,12 @@ class ProductImage extends Component {
                 onClick={(e) =>
                   this.scrollPicture(
                     e.currentTarget.classList[0],
-                    imgGallery.length
+                    imgGallery.length,
+                    imgControl
                   )
                 }
               >
-                <FaArrowCircleRight />
+                <AiOutlineRight />
               </button>
             </div>
           )}

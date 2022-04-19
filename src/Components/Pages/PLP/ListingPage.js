@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Attributes from './Attributes';
-import ProductCard from './ProductCard';
-import './plp.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Attributes from "./Attributes";
+import ProductCard from "./ProductCard";
+import "./plp.css";
 
 class ListingPage extends Component {
   render() {
-    const {
-      products, categoryName, attr, popup,
-    } = this.props;
+    const { products, categoryName, attr, popup } = this.props;
     return (
       <section className="listing-page d-flex f-col a-center j-center">
-        {popup && <Attributes attr={attr} popup={popup} /> }
+        {popup && <Attributes attr={attr} popup={popup} />}
         <h1 className="category-name d-flex a-center">{categoryName}</h1>
         <div className="products-cont d-flex a-center">
           {products.map((product) => (
@@ -37,7 +35,7 @@ ListingPage.propTypes = {
 
 ListingPage.defaultProps = {
   products: [],
-  name: '',
+  name: "",
 };
 
 export default ListingPage;

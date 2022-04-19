@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { BsCart } from "react-icons/bs";
-import { togglePopUp } from "../../../Redux/PLP/listingPage";
-import { getProductDetails } from "../../../Redux/PDP/descriptionPage";
+import { togglePopUp, closePopup } from "../../../Redux/PLP/listingPage";
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -13,7 +12,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = () => ({
   togglePopUp,
-  getProductDetails,
+  closePopup,
 });
 
 class ProductCard extends Component {
@@ -57,7 +56,9 @@ class ProductCard extends Component {
   }
 
   viewProduct(id) {
+    const { closePopup } = this.props;
     localStorage.setItem("id", JSON.stringify(id));
+    closePopup(false);
   }
 
   render() {
@@ -70,18 +71,18 @@ class ProductCard extends Component {
       headerState: { currencyDetails },
     } = this.props;
 
-    let selectedPrice
+    let selectedPrice;
 
     const selectedCurrency = currencyDetails.filter(
       (currency) => currency.selected === true
     );
 
-    if (selectedCurrency.length > 0){
-       selectedPrice = prices.filter(
+    if (selectedCurrency.length > 0) {
+      selectedPrice = prices.filter(
         (price) => price.currency.symbol === selectedCurrency[0].symbol
       );
     } else {
-      selectedPrice = prices
+      selectedPrice = prices;
     }
     return (
       <div

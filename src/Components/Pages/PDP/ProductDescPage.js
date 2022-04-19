@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import ProductImage from "./ProductImage";
 import ProductDescAttributes from "./ProductDescAttributes";
 import { getProductDetails } from "../../../Redux/PDP/descriptionPage";
+import "./pdp.css";
 
 const mapDispatchToProps = () => ({
   getProductDetails,
@@ -23,9 +24,9 @@ class ProductDescPage extends Component {
     return (
       <div className="product-desc-cont">
         {isLoading ? (
-          <h1 className="pdp-load">Loading...</h1>
+          <h1 className="pdp-load d-flex j-center a-center">Loading...</h1>
         ) : (
-          <section className="poduct-desc-page d-flex j-center">
+          <section className="product-desc-page d-flex j-center">
             <div className="img-preview-cont">
               <ProductImage
                 imgGallery={product.gallery}
@@ -49,8 +50,6 @@ class ProductDescPage extends Component {
   }
 }
 
-ProductDescPage.propTypes = {
-  
-};
+ProductDescPage.propTypes = {};
 
 export default connect(null, mapDispatchToProps())(ProductDescPage);
