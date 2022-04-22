@@ -1,8 +1,11 @@
 /* eslint-disable no-param-reassign */
 
-const FETCH_CATEGORIES = 'store/listingPage/FETCH_CATEGORIES';
-const FETCH_CURRENCY = 'store/listingPage/FETCH_CURRENCY';
-const CURRENCY_SWITCHER = 'store/listingPage/CURRENCY_SWITCHER';
+const FETCH_CATEGORIES = 'store/header/FETCH_CATEGORIES';
+const FETCH_CURRENCY = 'store/header/FETCH_CURRENCY';
+const CURRENCY_SWITCHER = 'store/header/CURRENCY_SWITCHER';
+const DISPLAY_CART = 'store/header/DISPLAY_CART';
+
+
 
 const initialState = {
   categories: [],
@@ -24,6 +27,12 @@ export const toggleCurrency = (value) => ({
   type: CURRENCY_SWITCHER,
   payload: value,
 });
+
+export const displayOverlay = (payload) => ({
+  type: DISPLAY_CART,
+  payload
+});
+
 
 export const getCategories = () => async (dispatch) => {
   const categoryQuery = `{
@@ -89,6 +98,11 @@ const categoryReducer = (state = initialState, action) => {
           return currency;
         }),
       };
+    case DISPLAY_CART:
+      return {
+        ...state,
+        cartOverlay: action.payload,
+      }
     default:
       return state;
   }

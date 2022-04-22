@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addToCart, attrSelector } from '../../../Redux/PDP/descriptionPage';
+import { removeFromCart, addToCart, attrSelector } from "../../../Redux/PLP/listingPage";
+import { displayOverlay } from "../../../Redux/PLP/header";
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -14,6 +15,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = () => ({
   attrSelector,
   addToCart,
+  displayOverlay,
+  removeFromCart
 });
 
 class ProductDescAtrributes extends Component {
@@ -35,12 +38,13 @@ class ProductDescAtrributes extends Component {
   }
 
   addProductToCart(productName, attr) {
-    const { addToCart } = this.props;
+    const { addToCart, displayOverlay } = this.props;
+    displayOverlay(false)
     const checkAttribute = attr.every(
       (property) => property.items.some((item) => item.selected === true),
     );
     if (checkAttribute) {
-      addToCart();
+      addToCart(productName);
     } else {
       window.alert(
         `Please select a value for all attributes for ${productName}`,
@@ -95,12 +99,12 @@ class ProductDescAtrributes extends Component {
 
   render() {
     const {
-      attr,
       prices,
       pName,
       inStock,
       description,
       brand,
+      myState: { productAttr },
       headerState: { currencyDetails },
     } = this.props;
     let selectedPrice;
@@ -116,6 +120,10 @@ class ProductDescAtrributes extends Component {
     } else {
       selectedPrice = prices;
     }
+
+    // const getProduct = allProducts.products.filter((product) => product.name === pName);
+
+    const attr = productAttr[0].attributes
 
     return (
       <div>

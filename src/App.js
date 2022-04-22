@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Routes, Route } from 'react-router-dom';
 import Header from './Components/Header';
 import { getProducts, closePopup } from './Redux/PLP/listingPage';
-import { getCategories, getCurrency } from './Redux/PLP/header';
+import { getCategories, getCurrency, displayOverlay } from './Redux/PLP/header';
 import ListingPage from './Components/Pages/PLP/ListingPage';
 import ProductDescPage from './Components/Pages/PDP/ProductDescPage';
 import './App.css';
@@ -20,6 +20,7 @@ const mapDispatchToProps = () => ({
   getCategories,
   getCurrency,
   closePopup,
+  displayOverlay,
 });
 
 class App extends Component {
@@ -29,6 +30,15 @@ class App extends Component {
   //   if(window.scrollY > 200) {
   //     closePopup(false)
   //   }
+  // }
+
+  // closecart(e, cartOverlay) {
+  //   const { displayOverlay } = this.props
+  //   console.log(e.target)
+  //   // if(cartOverlay){
+  //   //   displayOverlay(false)
+  //   // }
+    
   // }
 
   componentDidMount() {
@@ -45,14 +55,14 @@ class App extends Component {
         isLoading,
         productAttr,
         attrPopup,
-        shoppingCart,
+        totalQuantity,
       },
       headerState: { categories, currencyDetails, cartOverlay },
       descState: { loading, productDetails, imageControl },
     } = this.props;
 
     return (
-      <>
+      <div>
         {isLoading ? (
           <div className="App d-flex f-col a-center j-center">
             <h1 className="loading d-flex a-center j-center">Please Wait...</h1>
@@ -63,7 +73,8 @@ class App extends Component {
               categories={categories}
               currency={currencyDetails}
               overlay={cartOverlay}
-              cart={shoppingCart}
+              total={totalQuantity}
+              popup = { attrPopup }
             />
             <div className="product-cont-home d-flex a-center j-center">
               <Routes>
@@ -76,6 +87,7 @@ class App extends Component {
                       categoryName={name}
                       attr={productAttr}
                       popup={attrPopup}
+                      cartOverlay={cartOverlay}
                     />
                   )}
                 />
@@ -87,6 +99,7 @@ class App extends Component {
                       isLoading={loading}
                       product={productDetails}
                       imgControl={imageControl}
+                      cartOverlay={cartOverlay}
                     />
                   )}
                 />
@@ -94,7 +107,7 @@ class App extends Component {
             </div>
           </div>
         )}
-      </>
+      </div>
     );
   }
 }
@@ -116,7 +129,7 @@ App.propTypes = {
   getProducts: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(Object),
   currencyDetails: PropTypes.arrayOf(Object),
-  shoppingCart: PropTypes.arrayOf(Object),
+  totalQuantity: PropTypes.number,
   imageControl: PropTypes.number.isRequired,
   productDetails: PropTypes.objectOf(String),
   attrPopup: PropTypes.bool,
@@ -133,7 +146,7 @@ App.defaultProps = {
   attrPopup: false,
   cartOverlay: false,
   productAttr: {},
-  shoppingCart: [],
+  totalQuantity: 0,
   productDetails: {},
 };
 

@@ -1,0 +1,141 @@
+
+
+.cart-prod-img {
+    margin: 10px 0;
+}
+
+.cart-prod-img img {
+    margin-top: 15%;
+    width: 75px;
+    height: 75px;
+}
+
+.cart-quantity-cont {
+    margin-top: 12.5%;
+    row-gap: 30px;
+    margin-right: 10px;
+}
+
+.cart-quantity-cont button {
+    transform: scale(1.2);
+    background-color: transparent;
+    outline: none;
+    border: 2px solid black;
+}
+
+.mini-cart {
+    width: 30vw;
+    z-index: 999;
+    position: absolute;
+    row-gap: 10px;
+    background-color: #fff;
+    top: 12vh;
+    right: 2%;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px blanchedalmond;
+    border: 2px solid black;
+}
+
+.cart-content {
+    width: 90%;  
+}
+
+.cart-header-total {
+    width: 90%;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.cart-view-control {
+    position: relative;
+    z-index: 20;
+    top: -8vh;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.cart-product-details {
+    width: 80%;
+    align-items: flex-start;
+}
+
+.cart-product-details h2, h3 {
+    font-size: 17px;
+}
+
+.cart-price {
+    font-size: 17px;
+}
+
+.cart-view-control button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: black;
+    transform: scale(1.5);
+}
+
+.cart-product-cont {
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid grey
+}
+
+.cart-remove-btn {
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.cart-remove-btn button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+
+.cart-product {
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.cart-btn-price-cont {
+    width: 90%;
+    margin-top: 30px;
+}
+
+.cart-control {
+    width: 100%;
+    border-top: 1px solid grey
+}
+
+.total-cont {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.attr-btn-cart {
+    width: 30px;
+    height: 30px;
+}
+
+.checkout-bag-cont {
+    width: 100%;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+.view-bag {
+    width: 45%;
+    height: 7.5vh;
+    background-color: #fff;
+    border: 1px solid black;
+}
+
+.checkout {
+    width: 45%;
+    height: 7.5vh;
+    color: #fff;
+    background-color: #5ece7b;
+    border: 1px solid black;
+}

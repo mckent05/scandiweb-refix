@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { attrSelector, addToCart } from '../../../Redux/PLP/listingPage';
+import { displayOverlay } from "../../../Redux/PLP/header";
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = () => ({
   attrSelector,
   addToCart,
+  displayOverlay,
 });
 
 class Attributes extends Component {
@@ -22,7 +24,8 @@ class Attributes extends Component {
   }
 
   addProductTocart(productName, attr) {
-    const { addToCart } = this.props;
+    const { addToCart, displayOverlay } = this.props;
+    displayOverlay(false)
     const checkAttribute = attr[0].attributes.every(
       (property) => property.items.some((item) => item.selected === true),
     );

@@ -6,23 +6,43 @@ import { connect } from 'react-redux';
 import ProductImage from './ProductImage';
 import ProductDescAttributes from './ProductDescAttributes';
 import { getProductDetails } from '../../../Redux/PDP/descriptionPage';
+import { addToCart, removeFromCart, attrSelector, } from "../../../Redux/PLP/listingPage";
+import { displayOverlay } from "../../../Redux/PLP/header";
 import './pdp.css';
+
+const mapStateToProps = (state) => ({
+  myState: state.productList,
+  headerState: state.category,
+  descState: state.productDescription,
+});
 
 const mapDispatchToProps = () => ({
   getProductDetails,
+  removeFromCart,
+  addToCart,
+  attrSelector,
+  displayOverlay
 });
 
 class ProductDescPage extends Component {
+  closecart(cartOverlay) {
+    const { displayOverlay } = this.props
+    if(cartOverlay){
+      displayOverlay(false)
+    }
+    
+  }
+
   componentDidMount() {
     const id = JSON.parse(localStorage.getItem('id'));
-    const { getProductDetails } = this.props;
-    getProductDetails(id);
+    const { getProductDetails } = this.props
+    getProductDetails(id)
   }
 
   render() {
-    const { isLoading, imgControl, product } = this.props;
+    const { isLoading, imgControl, product, cartOverlay } = this.props;
     return (
-      <div className="product-desc-cont">
+      <div className="product-desc-cont"  onClick={() => this.closecart(cartOverlay)}>
         {isLoading ? (
           <h1 className="pdp-load d-flex j-center a-center">Loading...</h1>
         ) : (
@@ -35,10 +55,10 @@ class ProductDescPage extends Component {
             </div>
             <div className="product-desc-attr d-flex f-col">
               <ProductDescAttributes
+                id={product.id}
                 inStock={product.inStock}
                 prices={product.prices}
                 description={product.description}
-                attr={product.attributes}
                 brand={product.brand}
                 pName={product.name}
               />
@@ -60,4 +80,4 @@ ProductDescPage.propTypes = {
 ProductDescPage.defaultProps = {
   product: {},
 };
-export default connect(null, mapDispatchToProps())(ProductDescPage);
+export default connect(mapStateToProps, mapDispatchToProps())(ProductDescPage);

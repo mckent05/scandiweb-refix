@@ -2,14 +2,11 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-plusplus */
 
-import { initialState as plpState } from '../PLP/listingPage';
-
 const GET_PRODUCT_DETAILS = 'store/descriptionPage/GET_PRODUCT_DETAILS';
 const UPDATE_LOADINGSTATE = 'store/descriptionPage/UPDATE_LOADINGSTATE';
 const CONTROL_IMAGE_VIEW = 'store/descriptionpage/CONTROL_IMAGE_VIEW';
-const SELECT_ATTRIBUTE = 'store/descriptionPage/SELECT_ATTRIBUTE';
 const THUMBNAIL_CONTROL = 'store/descriptionpage/THUMBNAIL_CONTROL';
-const ADD_TO_CART = 'store/descriptionPage/ADD_TO_CART';
+
 
 const initialState = {
   productDetails: {},
@@ -32,23 +29,15 @@ export const controlImage = (action, galleryLength) => ({
   payload: { action, galleryLength },
 });
 
-export const attrSelector = (displayValue, attributeId) => ({
-  type: SELECT_ATTRIBUTE,
-  payload: { displayValue, attributeId },
-});
-
 export const controlThumbNail = (index) => ({
   type: THUMBNAIL_CONTROL,
   payload: index,
 });
 
-export const addToCart = () => ({
-  type: ADD_TO_CART,
-});
-
 export const getProductDetails = (productID) => async (dispatch) => {
   const detailsQuery = `{
         product(id: "${productID}") {
+            id
             name
             gallery
             inStock
@@ -61,15 +50,6 @@ export const getProductDetails = (productID) => async (dispatch) => {
                 }
                 amount
               }
-            attributes {
-              id
-            name
-                items {
-                  displayValue
-                  value
-                  id
-                }
-            }
         }
     }`;
   const products = await fetch('http://localhost:4000', {
@@ -97,13 +77,6 @@ const productDescriptionReducer = (state = initialState, action) => {
         imageControl: 0,
         productDetails: {
           ...action.payload,
-          attributes: action.payload.attributes.map((attr) => ({
-            ...attr,
-            items: attr.items.map((item) => ({
-              ...item,
-              selected: false,
-            })),
-          })),
         },
       };
     case CONTROL_IMAGE_VIEW:
@@ -125,66 +98,6 @@ const productDescriptionReducer = (state = initialState, action) => {
       return {
         ...state,
         imageControl: action.payload,
-      };
-    case SELECT_ATTRIBUTE:
-      return {
-        ...state,
-        productDetails: {
-          ...state.productDetails,
-          attributes: state.productDetails.attributes.map((attribute) => {
-            attribute.items.forEach((value) => {
-              if (
-                value.displayValue === action.payload.displayValue
-                && attribute.id === action.payload.attributeId
-              ) {
-                attribute.items.forEach((val) => {
-                  if (val !== value) {
-                    val.selected = false;
-                  }
-                });
-                value.selected = true;
-              }
-            });
-            return attribute;
-          }),
-        },
-      };
-    case ADD_TO_CART:
-      const productToAdd = {
-        name: state.productDetails.name,
-        prices: state.productDetails.prices,
-        gallery: state.productDetails.gallery,
-        attributes: state.productDetails.attributes.map((attr) => ({
-          ...attr,
-          items: attr.items.map((item) => ({
-            ...item,
-          })),
-        })),
-      };
-      const existingProduct = plpState.shoppingCart.filter(
-        (pro) => pro.name === productToAdd.name,
-      );
-      if (existingProduct.length === 0) {
-        plpState.shoppingCart.push({
-          ...productToAdd,
-          quantity: 1,
-        });
-      } else {
-        const existingAttribute = existingProduct.find((product) => product.attributes.every(
-          (attr, index) => JSON.stringify(attr)
-              === JSON.stringify(productToAdd.attributes[index]),
-        ));
-        if (existingAttribute) {
-          existingAttribute.quantity++;
-        } else {
-          plpState.shoppingCart.push({
-            ...productToAdd,
-            quantity: 1,
-          });
-        }
-      }
-      return {
-        ...state,
       };
 
     default:

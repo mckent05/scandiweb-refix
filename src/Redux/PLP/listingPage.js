@@ -9,6 +9,9 @@ const CLOSE_POPUP = 'store/listingPage/CLOSE_POPUP';
 const SELECT_ATTRIBUTE = 'store/listingPage/SELECT_ATTRIBUTE';
 const ADD_TO_CART = 'store/listingPage/ADD_TO_CART';
 const REMOVE_FROM_CART = 'store/listingPage/REMOVE_FROM_CART';
+const INCREASE_QUANTITY = 'store/listingPage/INCREASE_QUANTITY';
+const DECREASE_QUANTITY = 'store/listingPage/DECREASE_QUANTITY';
+const CART_IMAGE_CONTROL = 'store/listingPage/CART_IMAGE_CONTROL'
 
 export const initialState = {
   allProducts: {},
@@ -48,9 +51,24 @@ export const addToCart = (productName) => ({
   payload: productName,
 });
 
-export const removeFromCart = (productName) => ({
+export const removeFromCart = (index) => ({
   type: REMOVE_FROM_CART,
-  payload: productName,
+  payload: index,
+});
+
+export const addQuantity = (productIndex) => ({
+  type: INCREASE_QUANTITY,
+  payload: productIndex,
+});
+
+export const reduceQuantity = (productIndex) => ({
+  type: DECREASE_QUANTITY,
+  payload: productIndex,
+});
+
+export const cartControlImage = (action, galleryLength, productIndex) => ({
+  type: CART_IMAGE_CONTROL,
+  payload: { action, galleryLength, productIndex },
 });
 
 export const getProducts = (product) => async (dispatch) => {
@@ -177,6 +195,7 @@ const productListReducer = (state = initialState, action) => {
         state.shoppingCart.push({
           ...tope[0],
           quantity: 1,
+          imgIndex: 0,
         });
       } else {
         const existingAttribute = existingProduct.find((product) => product.attributes.every(
@@ -188,6 +207,7 @@ const productListReducer = (state = initialState, action) => {
           state.shoppingCart.push({
             ...tope[0],
             quantity: 1,
+            imgIndex: 0,
           });
         }
       }
@@ -197,11 +217,61 @@ const productListReducer = (state = initialState, action) => {
       };
 
     case REMOVE_FROM_CART:
+      const updatedCart = []
+      state.shoppingCart.forEach((product, index) => {
+        if(index !== action.payload) {
+          updatedCart.push(product)
+        }
+      })
       return {
         ...state,
-        shoppingCart: state.shoppingCart.filter(
-          (product) => product.name !== action.payload,
-        ),
+        shoppingCart: updatedCart
+      };
+      case INCREASE_QUANTITY: {
+        return {
+          ...state,
+          shoppingCart: state.shoppingCart.map((product, index) => {
+            if (index === action.payload) {
+              product.quantity += 1;
+            }
+            return product;
+          }),
+        };
+      }
+      case DECREASE_QUANTITY: {
+        return {
+          ...state,
+          shoppingCart: state.shoppingCart.map((product, index) => {
+            if (index === action.payload) {
+              product.quantity -= 1;
+              if (product.quantity < 1) {
+                product.quantity = 1;
+              }
+            }
+            return product;
+          }),
+        };
+      }
+
+      case CART_IMAGE_CONTROL:
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.map((product, index) => {
+          if(index === action.payload.productIndex) {
+            if (action.payload.action === 'right') {
+              product.imgIndex += 1;
+              if (product.imgIndex > action.payload.galleryLength - 1) {
+                product.imgIndex = 0;
+              }
+            } else {
+              product.imgIndex -= 1;
+              if (product.imgIndex < 0) {
+                product.imgIndex = action.payload.galleryLength - 1;
+              }
+            }
+          }
+          return product
+        })
       };
 
     default:

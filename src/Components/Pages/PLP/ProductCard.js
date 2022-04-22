@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { BsCart } from 'react-icons/bs';
 import { togglePopUp, closePopup } from '../../../Redux/PLP/listingPage';
+import { displayOverlay } from "../../../Redux/PLP/header";
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = () => ({
   togglePopUp,
   closePopup,
+  displayOverlay,
 });
 
 class ProductCard extends Component {
@@ -56,7 +58,9 @@ class ProductCard extends Component {
   }
 
   viewProduct(id) {
-    const { closePopup } = this.props;
+    const { closePopup, displayOverlay, togglePopUp } = this.props;
+    togglePopUp(id)
+    displayOverlay(false)
     localStorage.setItem('id', JSON.stringify(id));
     closePopup(false);
   }
