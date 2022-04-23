@@ -7,7 +7,6 @@ const UPDATE_LOADINGSTATE = 'store/descriptionPage/UPDATE_LOADINGSTATE';
 const CONTROL_IMAGE_VIEW = 'store/descriptionpage/CONTROL_IMAGE_VIEW';
 const THUMBNAIL_CONTROL = 'store/descriptionpage/THUMBNAIL_CONTROL';
 
-
 const initialState = {
   productDetails: {},
   loading: true,

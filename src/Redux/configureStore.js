@@ -12,7 +12,6 @@ const reducer = combineReducers({
 
 });
 
-
 const store = createStore(
   reducer,
   applyMiddleware(logger, thunk),

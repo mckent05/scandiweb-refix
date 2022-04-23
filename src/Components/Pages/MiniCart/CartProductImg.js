@@ -1,15 +1,15 @@
 /* eslint-disable react/prefer-stateless-function */
 
-import React, { Component } from "react";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { FaPlus, FaMinus } from "react-icons/fa";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { FaPlus, FaMinus } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   cartControlImage,
   addQuantity,
   reduceQuantity,
-} from "../../../Redux/PLP/listingPage";
-import { connect } from "react-redux";
+} from '../../../Redux/PLP/listingPage';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -40,7 +40,9 @@ class CartProductImg extends Component {
   }
 
   render() {
-    const { images, imgIndex, quantity, prodIndex } = this.props;
+    const {
+      images, imgIndex, quantity, prodIndex,
+    } = this.props;
     return (
       <div className="cart-product-img d-flex j-center a-center">
         <div className="cart-quantity-cont d-flex f-col">
@@ -67,26 +69,22 @@ class CartProductImg extends Component {
               <button
                 type="button"
                 className="left cart-img-left"
-                onClick={(e) =>
-                  this.imageControl(
-                    e.currentTarget.classList[0],
-                    images.length,
-                    prodIndex
-                  )
-                }
+                onClick={(e) => this.imageControl(
+                  e.currentTarget.classList[0],
+                  images.length,
+                  prodIndex,
+                )}
               >
                 <AiOutlineLeft />
               </button>
               <button
                 type="button"
                 className="right cart-img-right"
-                onClick={(e) =>
-                  this.imageControl(
-                    e.currentTarget.classList[0],
-                    images.length,
-                    prodIndex
-                  )
-                }
+                onClick={(e) => this.imageControl(
+                  e.currentTarget.classList[0],
+                  images.length,
+                  prodIndex,
+                )}
               >
                 <AiOutlineRight />
               </button>
@@ -98,8 +96,14 @@ class CartProductImg extends Component {
   }
 }
 
-CartProductImg.propTypes = {};
-
-CartProductImg.defaultProps = {};
+CartProductImg.propTypes = {
+  addQuantity: PropTypes.func.isRequired,
+  reduceQuantity: PropTypes.func.isRequired,
+  cartControlImage: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(String).isRequired,
+  imgIndex: PropTypes.number.isRequired,
+  quantity: PropTypes.number.isRequired,
+  prodIndex: PropTypes.number.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps())(CartProductImg);

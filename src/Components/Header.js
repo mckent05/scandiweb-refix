@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { GiShoppingBag } from "react-icons/gi";
-import { BsCart } from "react-icons/bs";
-import { getProducts, closePopup, removeFromCart } from "../Redux/PLP/listingPage";
-import { toggleCurrency, displayOverlay } from "../Redux/PLP/header";
-import MiniCart from "./Pages/MiniCart/MiniCart";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { GiShoppingBag } from 'react-icons/gi';
+import { BsCart } from 'react-icons/bs';
+import { getProducts, closePopup, removeFromCart } from '../Redux/PLP/listingPage';
+import { toggleCurrency, displayOverlay } from '../Redux/PLP/header';
+import MiniCart from './Pages/MiniCart/MiniCart';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -18,19 +18,10 @@ const mapDispatchToProps = () => ({
   toggleCurrency,
   displayOverlay,
   closePopup,
-  removeFromCart
+  removeFromCart,
 });
 
 class Header extends Component {
-  closecart(popup) {
-    const { closePopup } = this.props
-    if(popup) {
-      closePopup(false)
-    }
-  }
-
-
-
   static calculateCartQuantity = (cart) => {
     let total = 0;
     if (cart.length > 0) {
@@ -40,6 +31,13 @@ class Header extends Component {
     }
     return total;
   };
+
+  closecart(popup) {
+    const { closePopup } = this.props;
+    if (popup) {
+      closePopup(false);
+    }
+  }
 
   cartDisplay() {
     const { displayOverlay } = this.props;
@@ -63,19 +61,19 @@ class Header extends Component {
 
   filterCategory(e) {
     const { getProducts } = this.props;
-    const navBtn = document.querySelectorAll(".nav-btn");
+    const navBtn = document.querySelectorAll('.nav-btn');
     navBtn.forEach((btn) => {
-      btn.classList.remove("nav-color");
+      btn.classList.remove('nav-color');
     });
     const categoryValue = e.currentTarget.innerHTML;
-    e.currentTarget.classList.add("nav-color");
+    e.currentTarget.classList.add('nav-color');
     getProducts(categoryValue);
   }
 
   currencySwitcher(value) {
     const { toggleCurrency, displayOverlay } = this.props;
     toggleCurrency(value);
-    displayOverlay(false)
+    displayOverlay(false);
   }
 
   render() {
@@ -87,7 +85,7 @@ class Header extends Component {
       myState: { shoppingCart },
     } = this.props;
 
-    let totalQuantity = Header.calculateCartQuantity(shoppingCart);
+    const totalQuantity = Header.calculateCartQuantity(shoppingCart);
 
     return (
       <>
@@ -96,7 +94,7 @@ class Header extends Component {
             <div className="category d-flex">
               {categories.map((category, index) => (
                 <button
-                  className={index === 0 ? "nav-btn nav-color" : "nav-btn"}
+                  className={index === 0 ? 'nav-btn nav-color' : 'nav-btn'}
                   key={category.name}
                   type="button"
                   onClick={(e) => this.filterCategory(e)}
@@ -117,7 +115,7 @@ class Header extends Component {
                     value={curr.symbol}
                     key={curr.label}
                   >
-                    {" "}
+                    {' '}
                     {`${curr.symbol} ${curr.label}`}
                   </option>
                 ))}
@@ -134,17 +132,21 @@ class Header extends Component {
 
 Header.propTypes = {
   categories: PropTypes.arrayOf(Object),
-  cart: PropTypes.arrayOf(Object),
   currency: PropTypes.arrayOf(Object),
   getProducts: PropTypes.func.isRequired,
   toggleCurrency: PropTypes.func.isRequired,
   closePopup: PropTypes.func.isRequired,
+  displayOverlay: PropTypes.func.isRequired,
+  popup: PropTypes.bool.isRequired,
+  overlay: PropTypes.bool.isRequired,
+  myState: PropTypes.objectOf(String).isRequired,
+  shoppingCart: PropTypes.arrayOf(Object),
 };
 
 Header.defaultProps = {
   categories: [],
   currency: [],
-  cart: {},
+  shoppingCart: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps())(Header);

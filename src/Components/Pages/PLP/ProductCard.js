@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { BsCart } from 'react-icons/bs';
 import { togglePopUp, closePopup } from '../../../Redux/PLP/listingPage';
-import { displayOverlay } from "../../../Redux/PLP/header";
+import { displayOverlay } from '../../../Redux/PLP/header';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -59,8 +59,8 @@ class ProductCard extends Component {
 
   viewProduct(id) {
     const { closePopup, displayOverlay, togglePopUp } = this.props;
-    togglePopUp(id)
-    displayOverlay(false)
+    togglePopUp(id);
+    displayOverlay(false);
     localStorage.setItem('id', JSON.stringify(id));
     closePopup(false);
   }
@@ -122,6 +122,7 @@ ProductCard.propTypes = {
   gallery: PropTypes.arrayOf(String).isRequired,
   stock: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
+  displayOverlay: PropTypes.func.isRequired,
 };
 
 ProductCard.defaultProps = {

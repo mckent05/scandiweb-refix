@@ -3,8 +3,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { removeFromCart, addToCart, attrSelector } from "../../../Redux/PLP/listingPage";
-import { displayOverlay } from "../../../Redux/PLP/header";
+import DOMpurify from 'dompurify';
+import { removeFromCart, addToCart, attrSelector } from '../../../Redux/PLP/listingPage';
+import { displayOverlay } from '../../../Redux/PLP/header';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -16,16 +17,10 @@ const mapDispatchToProps = () => ({
   attrSelector,
   addToCart,
   displayOverlay,
-  removeFromCart
+  removeFromCart,
 });
 
 class ProductDescAtrributes extends Component {
-  static htmlParser(description) {
-    const doc = document.createElement('div');
-    doc.innerHTML = description;
-    return doc.innerHTML;
-  }
-
   static priceDisplay(selectedPrice) {
     return (
       <article>
@@ -39,7 +34,7 @@ class ProductDescAtrributes extends Component {
 
   addProductToCart(productName, attr) {
     const { addToCart, displayOverlay } = this.props;
-    displayOverlay(false)
+    displayOverlay(false);
     const checkAttribute = attr.every(
       (property) => property.items.some((item) => item.selected === true),
     );
@@ -121,9 +116,7 @@ class ProductDescAtrributes extends Component {
       selectedPrice = prices;
     }
 
-    // const getProduct = allProducts.products.filter((product) => product.name === pName);
-
-    const attr = productAttr[0].attributes
+    const attr = productAttr[0].attributes;
 
     return (
       <div>
@@ -164,6 +157,7 @@ class ProductDescAtrributes extends Component {
             </button>
           )}
         </article>
+        <div dangerouslySetInnerHTML={{ __html: DOMpurify.sanitize(description) }} />
       </div>
     );
   }
@@ -171,18 +165,22 @@ class ProductDescAtrributes extends Component {
 
 ProductDescAtrributes.propTypes = {
   headerState: PropTypes.objectOf(String),
+  myState: PropTypes.objectOf(String),
+  productAttr: PropTypes.arrayOf(Object),
   attrSelector: PropTypes.func.isRequired,
   addToCart: PropTypes.func.isRequired,
-  attr: PropTypes.arrayOf(String).isRequired,
   prices: PropTypes.arrayOf(String).isRequired,
   pName: PropTypes.string.isRequired,
   inStock: PropTypes.bool.isRequired,
   description: PropTypes.string.isRequired,
   brand: PropTypes.string.isRequired,
+  displayOverlay: PropTypes.func.isRequired,
 };
 
 ProductDescAtrributes.defaultProps = {
   headerState: {},
+  myState: {},
+  productAttr: [],
 };
 
 export default connect(

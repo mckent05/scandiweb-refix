@@ -2,16 +2,17 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-plusplus */
 
-const FETCH_PRODUCTS = 'store/listingPage/FETCH_PRODUCTS';
-const UPDATE_LOADINGSTATE = 'store/listingPage/UPDATE_LOADINGSTATE';
-const ATTR_POPUP_TOGGLE = 'store/listingPage/ATTR_POPUP_TOGGLE';
-const CLOSE_POPUP = 'store/listingPage/CLOSE_POPUP';
-const SELECT_ATTRIBUTE = 'store/listingPage/SELECT_ATTRIBUTE';
-const ADD_TO_CART = 'store/listingPage/ADD_TO_CART';
-const REMOVE_FROM_CART = 'store/listingPage/REMOVE_FROM_CART';
-const INCREASE_QUANTITY = 'store/listingPage/INCREASE_QUANTITY';
-const DECREASE_QUANTITY = 'store/listingPage/DECREASE_QUANTITY';
-const CART_IMAGE_CONTROL = 'store/listingPage/CART_IMAGE_CONTROL'
+const FETCH_PRODUCTS = "store/listingPage/FETCH_PRODUCTS";
+const UPDATE_LOADINGSTATE = "store/listingPage/UPDATE_LOADINGSTATE";
+const ATTR_POPUP_TOGGLE = "store/listingPage/ATTR_POPUP_TOGGLE";
+const CLOSE_POPUP = "store/listingPage/CLOSE_POPUP";
+const SELECT_ATTRIBUTE = "store/listingPage/SELECT_ATTRIBUTE";
+const ADD_TO_CART = "store/listingPage/ADD_TO_CART";
+const REMOVE_FROM_CART = "store/listingPage/REMOVE_FROM_CART";
+const INCREASE_QUANTITY = "store/listingPage/INCREASE_QUANTITY";
+const DECREASE_QUANTITY = "store/listingPage/DECREASE_QUANTITY";
+const CART_IMAGE_CONTROL = "store/listingPage/CART_IMAGE_CONTROL";
+const FETCH_PRODUCT_ATTRIBUTES = "store/listingPage/FETCH_PRODUCT_ATTRIBUTES";
 
 export const initialState = {
   allProducts: {},
@@ -66,6 +67,11 @@ export const reduceQuantity = (productIndex) => ({
   payload: productIndex,
 });
 
+export const fetchAttributes = (attr) => ({
+  type: FETCH_PRODUCT_ATTRIBUTES,
+  payload: attr,
+});
+
 export const cartControlImage = (action, galleryLength, productIndex) => ({
   type: CART_IMAGE_CONTROL,
   payload: { action, galleryLength, productIndex },
@@ -99,16 +105,42 @@ export const getProducts = (product) => async (dispatch) => {
       }
     }
   }`;
-  const products = await fetch('http://localhost:4000', {
-    method: 'POST',
+  const products = await fetch("http://localhost:4000", {
+    method: "POST",
     body: JSON.stringify({ query: productQuery }),
     headers: {
-      'Content-type': 'application/json; charset=UTF-8',
+      "Content-type": "application/json; charset=UTF-8",
     },
   });
   const response = await products.json();
   dispatch(fetchProducts(response.data.category));
   dispatch(setLoadingState(false));
+};
+
+export const getProductAttributes = (productID) => async (dispatch) => {
+  const detailsQuery = `{
+        product(id: "${productID}") {
+          id
+          attributes {
+            id
+              name
+              items {
+                displayValue
+                value
+                id
+              }
+          }
+        }
+    }`;
+  const products = await fetch("http://localhost:4000", {
+    method: "POST",
+    body: JSON.stringify({ query: detailsQuery }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+  const response = await products.json();
+  dispatch(fetchAttributes(response.data.product));
 };
 
 const productListReducer = (state = initialState, action) => {
@@ -135,11 +167,27 @@ const productListReducer = (state = initialState, action) => {
           })),
         },
       };
+    case FETCH_PRODUCT_ATTRIBUTES:
+      return {
+        ...state,
+        productAttr: [
+          {
+            ...action.payload,
+            attributes: action.payload.attributes.map((attr) => ({
+              ...attr,
+              items: attr.items.map((item) => ({
+                ...item,
+                selected: false,
+              })),
+            })),
+          },
+        ],
+      };
     case ATTR_POPUP_TOGGLE:
       return {
         ...state,
         productAttr: state.allProducts.products.filter(
-          (product) => product.id === action.payload,
+          (product) => product.id === action.payload
         ),
         attrPopup: true,
       };
@@ -157,8 +205,8 @@ const productListReducer = (state = initialState, action) => {
           product.attributes.forEach((attribute) => {
             attribute.items.forEach((value) => {
               if (
-                value.displayValue === action.payload.displayValue
-                && attribute.id === action.payload.attributeId
+                value.displayValue === action.payload.displayValue &&
+                attribute.id === action.payload.attributeId
               ) {
                 attribute.items.forEach((val) => {
                   if (val !== value) {
@@ -175,10 +223,11 @@ const productListReducer = (state = initialState, action) => {
 
     case ADD_TO_CART:
       const selectedProduct = state.allProducts.products.filter(
-        (product) => product.name === action.payload,
+        (product) => product.name === action.payload
       );
       const tope = selectedProduct.map((product) => ({
         name: product.name,
+        id: product.id,
         prices: product.prices,
         gallery: product.gallery,
         attributes: product.attributes.map((attr) => ({
@@ -189,7 +238,7 @@ const productListReducer = (state = initialState, action) => {
         })),
       }));
       const existingProduct = state.shoppingCart.filter(
-        (pro) => pro.name === tope[0].name,
+        (pro) => pro.name === tope[0].name
       );
       if (existingProduct.length === 0) {
         state.shoppingCart.push({
@@ -198,9 +247,12 @@ const productListReducer = (state = initialState, action) => {
           imgIndex: 0,
         });
       } else {
-        const existingAttribute = existingProduct.find((product) => product.attributes.every(
-          (attr, index) => JSON.stringify(attr) === JSON.stringify(tope[0].attributes[index]),
-        ));
+        const existingAttribute = existingProduct.find((product) =>
+          product.attributes.every(
+            (attr, index) =>
+              JSON.stringify(attr) === JSON.stringify(tope[0].attributes[index])
+          )
+        );
         if (existingAttribute) {
           existingAttribute.quantity++;
         } else {
@@ -217,48 +269,48 @@ const productListReducer = (state = initialState, action) => {
       };
 
     case REMOVE_FROM_CART:
-      const updatedCart = []
+      const updatedCart = [];
       state.shoppingCart.forEach((product, index) => {
-        if(index !== action.payload) {
-          updatedCart.push(product)
+        if (index !== action.payload) {
+          updatedCart.push(product);
         }
-      })
+      });
       return {
         ...state,
-        shoppingCart: updatedCart
+        shoppingCart: updatedCart,
       };
-      case INCREASE_QUANTITY: {
-        return {
-          ...state,
-          shoppingCart: state.shoppingCart.map((product, index) => {
-            if (index === action.payload) {
-              product.quantity += 1;
-            }
-            return product;
-          }),
-        };
-      }
-      case DECREASE_QUANTITY: {
-        return {
-          ...state,
-          shoppingCart: state.shoppingCart.map((product, index) => {
-            if (index === action.payload) {
-              product.quantity -= 1;
-              if (product.quantity < 1) {
-                product.quantity = 1;
-              }
-            }
-            return product;
-          }),
-        };
-      }
-
-      case CART_IMAGE_CONTROL:
+    case INCREASE_QUANTITY: {
       return {
         ...state,
         shoppingCart: state.shoppingCart.map((product, index) => {
-          if(index === action.payload.productIndex) {
-            if (action.payload.action === 'right') {
+          if (index === action.payload) {
+            product.quantity += 1;
+          }
+          return product;
+        }),
+      };
+    }
+    case DECREASE_QUANTITY: {
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.map((product, index) => {
+          if (index === action.payload) {
+            product.quantity -= 1;
+            if (product.quantity < 1) {
+              product.quantity = 1;
+            }
+          }
+          return product;
+        }),
+      };
+    }
+
+    case CART_IMAGE_CONTROL:
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.map((product, index) => {
+          if (index === action.payload.productIndex) {
+            if (action.payload.action === "right") {
               product.imgIndex += 1;
               if (product.imgIndex > action.payload.galleryLength - 1) {
                 product.imgIndex = 0;
@@ -270,8 +322,8 @@ const productListReducer = (state = initialState, action) => {
               }
             }
           }
-          return product
-        })
+          return product;
+        }),
       };
 
     default:

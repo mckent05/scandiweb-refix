@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import ProductImage from './ProductImage';
 import ProductDescAttributes from './ProductDescAttributes';
 import { getProductDetails } from '../../../Redux/PDP/descriptionPage';
-import { addToCart, removeFromCart, attrSelector, } from "../../../Redux/PLP/listingPage";
-import { displayOverlay } from "../../../Redux/PLP/header";
+import { addToCart, removeFromCart, attrSelector } from '../../../Redux/PLP/listingPage';
+import { displayOverlay } from '../../../Redux/PLP/header';
 import './pdp.css';
 
 const mapStateToProps = (state) => ({
@@ -21,28 +21,34 @@ const mapDispatchToProps = () => ({
   removeFromCart,
   addToCart,
   attrSelector,
-  displayOverlay
+  displayOverlay,
 });
 
 class ProductDescPage extends Component {
-  closecart(cartOverlay) {
-    const { displayOverlay } = this.props
-    if(cartOverlay){
-      displayOverlay(false)
-    }
-    
-  }
-
   componentDidMount() {
     const id = JSON.parse(localStorage.getItem('id'));
-    const { getProductDetails } = this.props
-    getProductDetails(id)
+    const { getProductDetails } = this.props;
+    getProductDetails(id);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  closecart(cartOverlay) {
+    const { displayOverlay } = this.props;
+    if (cartOverlay) {
+      displayOverlay(false);
+    }
   }
 
   render() {
-    const { isLoading, imgControl, product, cartOverlay } = this.props;
+    const {
+      isLoading, imgControl, product, cartOverlay,
+    } = this.props;
     return (
-      <div className="product-desc-cont"  onClick={() => this.closecart(cartOverlay)}>
+      <div className="product-desc-cont d-flex a-center j-center" onClick={() => this.closecart(cartOverlay)}>
         {isLoading ? (
           <h1 className="pdp-load d-flex j-center a-center">Loading...</h1>
         ) : (
@@ -75,6 +81,8 @@ ProductDescPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   imgControl: PropTypes.number.isRequired,
   product: PropTypes.objectOf(String),
+  displayOverlay: PropTypes.func.isRequired,
+  cartOverlay: PropTypes.bool.isRequired,
 };
 
 ProductDescPage.defaultProps = {

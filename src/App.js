@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Routes, Route } from 'react-router-dom';
 import Header from './Components/Header';
-import { getProducts, closePopup } from './Redux/PLP/listingPage';
+import CartPage from "./Components/Pages/CartPage/CartPage";
+import { getProducts, closePopup, getProductAttributes } from './Redux/PLP/listingPage';
 import { getCategories, getCurrency, displayOverlay } from './Redux/PLP/header';
 import ListingPage from './Components/Pages/PLP/ListingPage';
 import ProductDescPage from './Components/Pages/PDP/ProductDescPage';
@@ -21,6 +22,7 @@ const mapDispatchToProps = () => ({
   getCurrency,
   closePopup,
   displayOverlay,
+  getProductAttributes,
 });
 
 class App extends Component {
@@ -32,20 +34,15 @@ class App extends Component {
   //   }
   // }
 
-  // closecart(e, cartOverlay) {
-  //   const { displayOverlay } = this.props
-  //   console.log(e.target)
-  //   // if(cartOverlay){
-  //   //   displayOverlay(false)
-  //   // }
-    
-  // }
-
   componentDidMount() {
-    const { getProducts, getCategories, getCurrency } = this.props;
+    const { getProducts, getCategories, getCurrency, getProductAttributes } = this.props;
+    const id = JSON.parse(localStorage.getItem('id'));
     getCategories();
     getCurrency();
     getProducts('all');
+    if(id) {
+      getProductAttributes(id)
+    }
   }
 
   render() {
@@ -74,7 +71,7 @@ class App extends Component {
               currency={currencyDetails}
               overlay={cartOverlay}
               total={totalQuantity}
-              popup = { attrPopup }
+              popup={attrPopup}
             />
             <div className="product-cont-home d-flex a-center j-center">
               <Routes>
@@ -103,6 +100,17 @@ class App extends Component {
                     />
                   )}
                 />
+                <Route
+                  exact
+                  path="/myCart"
+                  element={(
+                    <CartPage
+                      total={totalQuantity}
+                    
+                    />
+
+                  )}
+                />
               </Routes>
             </div>
           </div>
@@ -122,7 +130,7 @@ App.propTypes = {
   getCategories: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(Object),
   productAttr: PropTypes.objectOf(String),
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   loading: PropTypes.bool,
   isLoading: PropTypes.bool,
   cartOverlay: PropTypes.bool,
@@ -130,9 +138,10 @@ App.propTypes = {
   categories: PropTypes.arrayOf(Object),
   currencyDetails: PropTypes.arrayOf(Object),
   totalQuantity: PropTypes.number,
-  imageControl: PropTypes.number.isRequired,
+  imageControl: PropTypes.number,
   productDetails: PropTypes.objectOf(String),
   attrPopup: PropTypes.bool,
+  getProductAttributes: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
@@ -148,6 +157,8 @@ App.defaultProps = {
   productAttr: {},
   totalQuantity: 0,
   productDetails: {},
+  imageControl: 0,
+  name: '',
 };
 
 export default connect(mapStateToProps, mapDispatchToProps())(App);

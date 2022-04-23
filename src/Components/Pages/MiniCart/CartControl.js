@@ -29,7 +29,7 @@ class CartControl extends Component {
 
   render() {
     const {
-      prices,
+      total,
       headerState: { currencyDetails },
       myState: { shoppingCart },
     } = this.props;
@@ -40,21 +40,25 @@ class CartControl extends Component {
       (currency) => currency.selected === true
     );
 
-    if(selectedCurrency.length > 0) {
-      selectedPrice = selectedCurrency
+    if (selectedCurrency.length > 0) {
+      selectedPrice = selectedCurrency;
+    } else {
+      selectedPrice = currencyDetails;
     }
 
-    else {
-      selectedPrice = currencyDetails
-    }
+    const totalAmount = CartControl.calculateTotalAmount(
+      shoppingCart,
+      selectedPrice
+    );
+    const taxPaid = (0.075 * totalAmount).toFixed(2);
 
-    let totalAmount = CartControl.calculateTotalAmount(shoppingCart, selectedPrice);
+    const totalCartAmount = (totalAmount * 1.075).toFixed(2);
 
     return (
       <div className="cart-control d-flex f-col a-center j-center">
         <div className="total-cont d-flex a-center">
           <h2>Total</h2>
-          <h3>{`${selectedPrice[0].symbol}${totalAmount}`}</h3>
+          <h3>{`${selectedPrice[0].symbol}${totalCartAmount}`}</h3>
         </div>
         <div className="checkout-bag-cont d-flex a-center">
           <Link to="/myCart" className="view-bag d-flex a-center j-center">
@@ -64,13 +68,42 @@ class CartControl extends Component {
             Checkout
           </button>
         </div>
+        <div className="cart-page-checkout f-col">
+          <span>
+            <p>Tax: </p>
+            <h3>{`${selectedPrice[0].symbol}${taxPaid}`}</h3>
+          </span>
+          <span>
+            <p>Quantity: </p>
+            <h3>{total}</h3>
+          </span>
+          <span>
+            <p>Total: </p>
+            <h2>{`${selectedPrice[0].symbol}${totalCartAmount}`}</h2>
+          </span>
+          <button type="button" className="checkout checkout2">
+            ORDER
+          </button>
+        </div>
       </div>
     );
   }
 }
 
-CartControl.propTypes = {};
+CartControl.propTypes = {
+  headerState: PropTypes.objectOf(String),
+  myState: PropTypes.objectOf(String),
+  currencyDetails: PropTypes.arrayOf(Object),
+  shoppingCart: PropTypes.arrayOf(Object),
+  total: PropTypes.number
+};
 
-CartControl.defaultProps = {};
+CartControl.defaultProps = {
+  headerState: {},
+  myState: {},
+  shoppingCart: [],
+  currencyDetails: [],
+  total: 0
+};
 
 export default connect(mapStateToProps, null)(CartControl);

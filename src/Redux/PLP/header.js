@@ -5,8 +5,6 @@ const FETCH_CURRENCY = 'store/header/FETCH_CURRENCY';
 const CURRENCY_SWITCHER = 'store/header/CURRENCY_SWITCHER';
 const DISPLAY_CART = 'store/header/DISPLAY_CART';
 
-
-
 const initialState = {
   categories: [],
   currencyDetails: [],
@@ -30,9 +28,8 @@ export const toggleCurrency = (value) => ({
 
 export const displayOverlay = (payload) => ({
   type: DISPLAY_CART,
-  payload
+  payload,
 });
-
 
 export const getCategories = () => async (dispatch) => {
   const categoryQuery = `{
@@ -102,7 +99,7 @@ const categoryReducer = (state = initialState, action) => {
       return {
         ...state,
         cartOverlay: action.payload,
-      }
+      };
     default:
       return state;
   }

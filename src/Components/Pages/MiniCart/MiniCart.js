@@ -1,11 +1,11 @@
 /* eslint-disable react/prefer-stateless-function */
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import ProductCart from "./ProductCart";
-import CartControl from "./CartControl";
-import "./cart.css"
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import ProductCart from './ProductCart';
+import CartControl from './CartControl';
+import './cart.css';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -22,6 +22,7 @@ class MiniCart extends Component {
 
     return (
       <div className="mini-cart d-flex f-col a-center j-center">
+        <h1 className="cart-page-header">My Cart</h1>
         <h2 className="cart-header-total d-flex">{`My Bag: ${total} items`}</h2>
         <div className="cart-content d-flex f-col a-center j-center">
           {shoppingCart.length > 0 ? (
@@ -33,8 +34,8 @@ class MiniCart extends Component {
                 prices={product.prices}
                 quantity={product.quantity}
                 attr={product.attributes}
-                imgIndex ={product.imgIndex}
-                productIndex ={index}
+                imgIndex={product.imgIndex}
+                productIndex={index}
               />
             ))
           ) : (
@@ -42,9 +43,7 @@ class MiniCart extends Component {
           )}
         </div>
         <div className="cart-btn-price-cont">
-          {shoppingCart.length > 0 && (
-            <CartControl />
-          )}
+          {shoppingCart.length > 0 && <CartControl total={total} />}
         </div>
       </div>
     );
@@ -54,6 +53,7 @@ class MiniCart extends Component {
 MiniCart.propTypes = {
   myState: PropTypes.objectOf(String).isRequired,
   shoppingCart: PropTypes.arrayOf(String),
+  total: PropTypes.number,
 };
 
 MiniCart.defaultProps = {

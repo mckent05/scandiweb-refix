@@ -1,15 +1,13 @@
 /* eslint-disable react/prefer-stateless-function */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from 'prop-types';
-import Attributes from './Attributes';
-import ProductCard from './ProductCard';
+import PropTypes from "prop-types";
+import Attributes from "./Attributes";
+import ProductCard from "./ProductCard";
 import { displayOverlay } from "../../../Redux/PLP/header";
+import "./plp.css";
 import { closePopup } from "../../../Redux/PLP/listingPage";
-
-import './plp.css';
-
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -17,27 +15,32 @@ const mapStateToProps = (state) => ({
   descState: state.productDescription,
 });
 
-
 const mapDispatchToProps = () => ({
   displayOverlay,
   closePopup,
 });
 
-
 class ListingPage extends Component {
-  closecart(cartOverlay, popup) {
-    const { displayOverlay, closePopup } = this.props
-    if(cartOverlay){
-      displayOverlay(false)
+  closecart(e, cartOverlay, popup) {
+    console.log(e.target.classList)
+    const { displayOverlay, closePopup } = this.props;
+    if (cartOverlay) {
+      displayOverlay(false);
+    }
+    if (popup) {
+      if (e.target.classList[0] === "products-cont") {
+        closePopup(false);
+      }
     }
   }
 
   render() {
-    const {
-      products, categoryName, attr, popup, cartOverlay
-    } = this.props;
+    const { products, categoryName, attr, popup, cartOverlay } = this.props;
     return (
-      <section className="listing-page d-flex f-col a-center j-center" onClick={() => this.closecart(cartOverlay)}>
+      <section
+        className="listing-page d-flex f-col a-center j-center"
+        onClick={(e) => this.closecart(e, cartOverlay, popup)}
+      >
         {popup && <Attributes attr={attr} popup={popup} />}
         <h1 className="category-name d-flex a-center">{categoryName}</h1>
         <div className="products-cont d-flex a-center">
@@ -62,11 +65,14 @@ ListingPage.propTypes = {
   attr: PropTypes.arrayOf(Object),
   categoryName: PropTypes.string,
   popup: PropTypes.bool.isRequired,
+  cartOverlay: PropTypes.bool.isRequired,
+  displayOverlay: PropTypes.func.isRequired,
+  closePopup: PropTypes.func.isRequired
 };
 
 ListingPage.defaultProps = {
   products: [],
-  categoryName: '',
+  categoryName: "",
   attr: [],
 };
 

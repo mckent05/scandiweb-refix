@@ -1,8 +1,8 @@
 /* eslint-disable react/prefer-stateless-function */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -30,7 +30,9 @@ class CartProductDetails extends Component {
           {item.items.map((size) => (
             <button
               type="button"
-              className={size.selected ? "attr-btn-cart selected-color" : "attr-btn-cart"}
+              className={
+                size.selected ? 'attr-btn-cart selected-color' : 'attr-btn-cart'
+              }
               key={size.id}
               style={{ backgroundColor: size.displayValue }}
             />
@@ -48,10 +50,10 @@ class CartProductDetails extends Component {
           {item.items.map((size) => (
             <button
               type="button"
-              className={size.selected ? "attr-btn selected-size" : "attr-btn"}
+              className={size.selected ? 'attr-btn selected-size' : 'attr-btn'}
               key={size.id}
             >
-              {" "}
+              {' '}
               {size.value}
             </button>
           ))}
@@ -71,12 +73,12 @@ class CartProductDetails extends Component {
     let selectedPrice;
 
     const selectedCurrency = currencyDetails.filter(
-      (currency) => currency.selected === true
+      (currency) => currency.selected === true,
     );
 
     if (selectedCurrency.length > 0) {
       selectedPrice = prices.filter(
-        (price) => price.currency.symbol === selectedCurrency[0].symbol
+        (price) => price.currency.symbol === selectedCurrency[0].symbol,
       );
     } else {
       selectedPrice = prices;
@@ -85,26 +87,30 @@ class CartProductDetails extends Component {
       <div className="cart-product-details d-flex f-col">
         <h2 className="cart-product-name">{pName}</h2>
         {CartProductDetails.priceDisplay(selectedPrice)}
-        {attr.map((item) =>
-          item.id === "Color" ? (
-            <div className="cart-color-attr d-flex " key={item.id}>
-              {CartProductDetails.displayColorAttribute(item)}
-            </div>
-          ) : (
-            <div className="pdp-other-attr" key={item.id}>
-              {CartProductDetails.displayOtherAttributes(item)}
-            </div>
-          )
-        )}
+        {attr.map((item) => (item.id === 'Color' ? (
+          <div className="cart-color-attr d-flex " key={item.id}>
+            {CartProductDetails.displayColorAttribute(item)}
+          </div>
+        ) : (
+          <div className="pdp-other-attr" key={item.id}>
+            {CartProductDetails.displayOtherAttributes(item)}
+          </div>
+        )))}
       </div>
     );
   }
 }
 
-CartProductDetails.propTypes = {};
+CartProductDetails.propTypes = {
+  prices: PropTypes.arrayOf(String).isRequired,
+  pName: PropTypes.string.isRequired,
+  attr: PropTypes.arrayOf(String).isRequired,
+  currencyDetails: PropTypes.arrayOf(Object),
+  headerState: PropTypes.objectOf(String),
+};
 
 CartProductDetails.defaultProps = {
-  cart: [],
+  currencyDetails: [],
 };
 
 export default connect(mapStateToProps, null)(CartProductDetails);
