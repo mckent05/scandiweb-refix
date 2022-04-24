@@ -2,16 +2,14 @@
 
 - This is a scandiweb assessment test. This project is an e-commerce web app that allows users shop for some of their favorite items.
 
-Product Listing page                             |  Product Description page
+Listing page                             |  Description page
 :---------------------------------------:|:---------------------------------------:
-![Capture4](https://user-images.githubusercontent.com/73607512/164990462-ff709005-5e44-44e8-9205-0af11e6cfa77.PNG)
- |  ![pdp](https://user-images.githubusercontent.com/73607512/164990488-e29914a8-718a-485b-99d1-e9826ae7b8cd.PNG)
+![Capture4](https://user-images.githubusercontent.com/73607512/164990462-ff709005-5e44-44e8-9205-0af11e6cfa77.PNG) |  ![pdp](https://user-images.githubusercontent.com/73607512/164990488-e29914a8-718a-485b-99d1-e9826ae7b8cd.PNG)
  
 
 MiniCart view                            |  Cart page
 :---------------------------------------:|:---------------------------------------:
-![cart](https://user-images.githubusercontent.com/73607512/164990511-be559b1f-a7c4-4ab7-a900-ac72409794a6.PNG)
- |  ![cartpage](https://user-images.githubusercontent.com/73607512/164990523-eb2f72f2-c7b5-4860-993b-58d0b9e982da.PNG)
+![cart](https://user-images.githubusercontent.com/73607512/164990511-be559b1f-a7c4-4ab7-a900-ac72409794a6.PNG) |  ![cartpage](https://user-images.githubusercontent.com/73607512/164990523-eb2f72f2-c7b5-4860-993b-58d0b9e982da.PNG)
 
 
 
