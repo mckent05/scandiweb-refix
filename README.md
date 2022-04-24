@@ -4,11 +4,15 @@
 
 Product Listing page                             |  Product Description page
 :---------------------------------------:|:---------------------------------------:
-![Capture1](https://user-images.githubusercontent.com/73607512/157762535-cd465822-e83e-4add-bc1e-2acecfd06ced.PNG) |  ![Capture2](https://user-images.githubusercontent.com/73607512/157762542-ddb6d61d-000d-4df2-9988-daaa6ecdcbe7.PNG) 
+![Capture4](https://user-images.githubusercontent.com/73607512/164990462-ff709005-5e44-44e8-9205-0af11e6cfa77.PNG)
+ |  ![pdp](https://user-images.githubusercontent.com/73607512/164990488-e29914a8-718a-485b-99d1-e9826ae7b8cd.PNG)
+ 
 
 MiniCart view                            |  Cart page
 :---------------------------------------:|:---------------------------------------:
-![Capture3](https://user-images.githubusercontent.com/73607512/157762551-fdc063ae-1267-490a-a732-cf8532993c53.PNG) |  ![Capture4](https://user-images.githubusercontent.com/73607512/157762555-323a3c0a-a5c0-4d60-86ce-7ad9471ed7c4.PNG)
+![cart](https://user-images.githubusercontent.com/73607512/164990511-be559b1f-a7c4-4ab7-a900-ac72409794a6.PNG)
+ |  ![cartpage](https://user-images.githubusercontent.com/73607512/164990523-eb2f72f2-c7b5-4860-993b-58d0b9e982da.PNG)
+
 
 
 # BUILT WITH
