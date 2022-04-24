@@ -29,6 +29,7 @@ class CartProductDetails extends Component {
         <div className="attr-btn-cont d-flex a-center j-center">
           {item.items.map((size) => (
             <button
+              aria-label="selected-attribute"
               type="button"
               className={
                 size.selected ? 'attr-btn-cart selected-color' : 'attr-btn-cart'
@@ -106,7 +107,7 @@ CartProductDetails.propTypes = {
   pName: PropTypes.string.isRequired,
   attr: PropTypes.arrayOf(String).isRequired,
   currencyDetails: PropTypes.arrayOf(Object),
-  headerState: PropTypes.objectOf(String),
+  headerState: PropTypes.objectOf(String).isRequired,
 };
 
 CartProductDetails.defaultProps = {

@@ -1,9 +1,9 @@
 /* eslint-disable react/prefer-stateless-function */
 
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -17,7 +17,7 @@ class CartControl extends Component {
     if (cart.length > 0) {
       cart.forEach((product) => {
         const findCurrency = product.prices.find(
-          (price) => price.currency.symbol === selectedCurrency[0].symbol
+          (price) => price.currency.symbol === selectedCurrency[0].symbol,
         );
         if (findCurrency) {
           totalAmount += product.quantity * findCurrency.amount;
@@ -37,7 +37,7 @@ class CartControl extends Component {
     let selectedPrice;
 
     const selectedCurrency = currencyDetails.filter(
-      (currency) => currency.selected === true
+      (currency) => currency.selected === true,
     );
 
     if (selectedCurrency.length > 0) {
@@ -48,7 +48,7 @@ class CartControl extends Component {
 
     const totalAmount = CartControl.calculateTotalAmount(
       shoppingCart,
-      selectedPrice
+      selectedPrice,
     );
     const taxPaid = (0.075 * totalAmount).toFixed(2);
 
@@ -57,7 +57,7 @@ class CartControl extends Component {
     return (
       <div className="cart-control d-flex f-col a-center j-center">
         <div className="total-cont d-flex a-center">
-          <h2>Total</h2>
+          <h2>Total </h2>
           <h3>{`${selectedPrice[0].symbol}${totalCartAmount}`}</h3>
         </div>
         <div className="checkout-bag-cont d-flex a-center">
@@ -95,7 +95,7 @@ CartControl.propTypes = {
   myState: PropTypes.objectOf(String),
   currencyDetails: PropTypes.arrayOf(Object),
   shoppingCart: PropTypes.arrayOf(Object),
-  total: PropTypes.number
+  total: PropTypes.number,
 };
 
 CartControl.defaultProps = {
@@ -103,7 +103,7 @@ CartControl.defaultProps = {
   myState: {},
   shoppingCart: [],
   currencyDetails: [],
-  total: 0
+  total: 0,
 };
 
 export default connect(mapStateToProps, null)(CartControl);

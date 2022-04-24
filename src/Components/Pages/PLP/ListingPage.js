@@ -1,13 +1,16 @@
 /* eslint-disable react/prefer-stateless-function */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import Attributes from "./Attributes";
-import ProductCard from "./ProductCard";
-import { displayOverlay } from "../../../Redux/PLP/header";
-import "./plp.css";
-import { closePopup } from "../../../Redux/PLP/listingPage";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Attributes from './Attributes';
+import ProductCard from './ProductCard';
+import { displayOverlay } from '../../../Redux/PLP/header';
+import './plp.css';
+import { closePopup } from '../../../Redux/PLP/listingPage';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -22,20 +25,21 @@ const mapDispatchToProps = () => ({
 
 class ListingPage extends Component {
   closecart(e, cartOverlay, popup) {
-    console.log(e.target.classList)
     const { displayOverlay, closePopup } = this.props;
     if (cartOverlay) {
       displayOverlay(false);
     }
     if (popup) {
-      if (e.target.classList[0] === "products-cont") {
+      if (e.target.classList[0] === 'products-cont') {
         closePopup(false);
       }
     }
   }
 
   render() {
-    const { products, categoryName, attr, popup, cartOverlay } = this.props;
+    const {
+      products, categoryName, attr, popup, cartOverlay,
+    } = this.props;
     return (
       <section
         className="listing-page d-flex f-col a-center j-center"
@@ -67,15 +71,18 @@ ListingPage.propTypes = {
   popup: PropTypes.bool.isRequired,
   cartOverlay: PropTypes.bool.isRequired,
   displayOverlay: PropTypes.func.isRequired,
-  closePopup: PropTypes.func.isRequired
+  closePopup: PropTypes.func.isRequired,
 };
 
 ListingPage.defaultProps = {
   products: [],
-  categoryName: "",
+  categoryName: '',
   attr: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps())(ListingPage);
 
 /* eslint-enable react/prefer-stateless-function */
+/* eslint-enable jsx-a11y/click-events-have-key-events */
+/* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-enable jsx-a11y/no-static-element-interactions */

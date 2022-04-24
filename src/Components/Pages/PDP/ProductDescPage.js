@@ -1,4 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -6,7 +8,11 @@ import { connect } from 'react-redux';
 import ProductImage from './ProductImage';
 import ProductDescAttributes from './ProductDescAttributes';
 import { getProductDetails } from '../../../Redux/PDP/descriptionPage';
-import { addToCart, removeFromCart, attrSelector } from '../../../Redux/PLP/listingPage';
+import {
+  addToCart,
+  removeFromCart,
+  attrSelector,
+} from '../../../Redux/PLP/listingPage';
 import { displayOverlay } from '../../../Redux/PLP/header';
 import './pdp.css';
 
@@ -32,8 +38,8 @@ class ProductDescPage extends Component {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
-    })
+      behavior: 'smooth',
+    });
   }
 
   closecart(cartOverlay) {
@@ -48,7 +54,10 @@ class ProductDescPage extends Component {
       isLoading, imgControl, product, cartOverlay,
     } = this.props;
     return (
-      <div className="product-desc-cont d-flex a-center j-center" onClick={() => this.closecart(cartOverlay)}>
+      <div
+        className="product-desc-cont d-flex a-center j-center"
+        onClick={() => this.closecart(cartOverlay)}
+      >
         {isLoading ? (
           <h1 className="pdp-load d-flex j-center a-center">Loading...</h1>
         ) : (
@@ -89,3 +98,6 @@ ProductDescPage.defaultProps = {
   product: {},
 };
 export default connect(mapStateToProps, mapDispatchToProps())(ProductDescPage);
+
+/* eslint-enable jsx-a11y/click-events-have-key-events */
+/* eslint-enable jsx-a11y/no-static-element-interactions */

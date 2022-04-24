@@ -1,9 +1,16 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GiShoppingBag } from 'react-icons/gi';
 import { BsCart } from 'react-icons/bs';
-import { getProducts, closePopup, removeFromCart } from '../Redux/PLP/listingPage';
+import {
+  getProducts,
+  closePopup,
+  removeFromCart,
+} from '../Redux/PLP/listingPage';
 import { toggleCurrency, displayOverlay } from '../Redux/PLP/header';
 import MiniCart from './Pages/MiniCart/MiniCart';
 
@@ -150,3 +157,6 @@ Header.defaultProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps())(Header);
+
+/* eslint-enable jsx-a11y/click-events-have-key-events */
+/* eslint-enable jsx-a11y/no-noninteractive-element-interactions */

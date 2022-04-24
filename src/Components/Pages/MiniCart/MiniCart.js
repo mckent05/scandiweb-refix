@@ -1,4 +1,5 @@
 /* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/no-array-index-key */
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -39,7 +40,9 @@ class MiniCart extends Component {
               />
             ))
           ) : (
-            <h3>Your Cart is empty! Please add products to the cart</h3>
+            <h3 className="cart-empty-header">
+              Your Cart is empty! Please add products to the cart
+            </h3>
           )}
         </div>
         <div className="cart-btn-price-cont">
@@ -62,3 +65,6 @@ MiniCart.defaultProps = {
 };
 
 export default connect(mapStateToProps, null)(MiniCart);
+
+/* eslint-enable react/prefer-stateless-function */
+/* eslint-enable react/no-array-index-key */

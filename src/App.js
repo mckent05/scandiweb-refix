@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Routes, Route } from 'react-router-dom';
 import Header from './Components/Header';
-import CartPage from "./Components/Pages/CartPage/CartPage";
-import { getProducts, closePopup, getProductAttributes } from './Redux/PLP/listingPage';
+import CartPage from './Components/Pages/CartPage/CartPage';
+import { getProducts, getProductAttributes } from './Redux/PLP/listingPage';
 import { getCategories, getCurrency, displayOverlay } from './Redux/PLP/header';
 import ListingPage from './Components/Pages/PLP/ListingPage';
 import ProductDescPage from './Components/Pages/PDP/ProductDescPage';
@@ -20,28 +20,21 @@ const mapDispatchToProps = () => ({
   getProducts,
   getCategories,
   getCurrency,
-  closePopup,
   displayOverlay,
   getProductAttributes,
 });
 
 class App extends Component {
-  // handleScroll() {
-  //   const { closePopup } = this.props
-  //   console.log(window.scrollY)
-  //   if(window.scrollY > 200) {
-  //     closePopup(false)
-  //   }
-  // }
-
   componentDidMount() {
-    const { getProducts, getCategories, getCurrency, getProductAttributes } = this.props;
+    const {
+      getProducts, getCategories, getCurrency, getProductAttributes,
+    } = this.props;
     const id = JSON.parse(localStorage.getItem('id'));
     getCategories();
     getCurrency();
     getProducts('all');
-    if(id) {
-      getProductAttributes(id)
+    if (id) {
+      getProductAttributes(id);
     }
   }
 
@@ -103,13 +96,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/myCart"
-                  element={(
-                    <CartPage
-                      total={totalQuantity}
-                    
-                    />
-
-                  )}
+                  element={<CartPage total={totalQuantity} />}
                 />
               </Routes>
             </div>
@@ -124,7 +111,6 @@ App.propTypes = {
   myState: PropTypes.objectOf(String).isRequired,
   headerState: PropTypes.objectOf(String).isRequired,
   descState: PropTypes.objectOf(String),
-  closePopup: PropTypes.func.isRequired,
   allProducts: PropTypes.objectOf(String),
   getCurrency: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,

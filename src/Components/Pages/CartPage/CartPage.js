@@ -1,11 +1,11 @@
 /* eslint-disable react/prefer-stateless-function */
 
 import React, { Component } from 'react';
-import { connect } from "react-redux";
-import MiniCart from "../MiniCart/MiniCart";
-import { displayOverlay } from "../../../Redux/PLP/header"
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import MiniCart from '../MiniCart/MiniCart';
+import { displayOverlay } from '../../../Redux/PLP/header';
 import './cartpage.css';
-
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -29,17 +29,19 @@ class CartPage extends Component {
   };
 
   componentDidMount() {
-    const { displayOverlay } = this.props
-    displayOverlay(false)
+    const { displayOverlay } = this.props;
+    displayOverlay(false);
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
-    })
+      behavior: 'smooth',
+    });
   }
 
   render() {
-    const { myState: { shoppingCart } } = this.props
+    const {
+      myState: { shoppingCart },
+    } = this.props;
 
     const totalQuantity = CartPage.calculateCartQuantity(shoppingCart);
 
@@ -50,5 +52,15 @@ class CartPage extends Component {
     );
   }
 }
+
+CartPage.propTypes = {
+  myState: PropTypes.objectOf(String).isRequired,
+  shoppingCart: PropTypes.arrayOf(String),
+  displayOverlay: PropTypes.func.isRequired,
+};
+
+CartPage.defaultProps = {
+  shoppingCart: [],
+};
 
 export default connect(mapStateToProps, mapDispatchToProps())(CartPage);
