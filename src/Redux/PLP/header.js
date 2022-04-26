@@ -39,7 +39,7 @@ export const getCategories = () => async (dispatch) => {
     }
     
   }`;
-  const products = await fetch('http://localhost:4000', {
+  const products = await fetch('https://host-scandi.herokuapp.com', {
     method: 'POST',
     body: JSON.stringify({ query: categoryQuery }),
     headers: {
@@ -58,7 +58,7 @@ export const getCurrency = () => async (dispatch) => {
     }
   }`;
 
-  const products = await fetch('http://localhost:4000', {
+  const products = await fetch('https://host-scandi.herokuapp.com', {
     method: 'POST',
     body: JSON.stringify({ query: currencyQuery }),
     headers: {

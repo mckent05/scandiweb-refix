@@ -52,7 +52,7 @@ export const getProductDetails = (productID) => async (dispatch) => {
               }
         }
     }`;
-  const products = await fetch('http://localhost:4000', {
+  const products = await fetch('https://host-scandi.herokuapp.com', {
     method: 'POST',
     body: JSON.stringify({ query: detailsQuery }),
     headers: {
