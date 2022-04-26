@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import DOMpurify from "dompurify";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import DOMpurify from 'dompurify';
 import {
   removeFromCart,
   addToCart,
   attrSelector,
-} from "../../../Redux/PLP/listingPage";
-import { displayOverlay } from "../../../Redux/PLP/header";
+} from '../../../Redux/PLP/listingPage';
+import { displayOverlay } from '../../../Redux/PLP/header';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -39,14 +39,14 @@ class ProductDescAtrributes extends Component {
   addProductToCart(productName, attr) {
     const { addToCart, displayOverlay } = this.props;
     displayOverlay(false);
-    const checkAttribute = attr.every((property) =>
-      property.items.some((item) => item.selected === true)
+    const checkAttribute = attr.every(
+      (property) => property.items.some((item) => item.selected === true),
     );
     if (checkAttribute) {
       addToCart(productName);
     } else {
       window.alert(
-        `Please select a value for all attributes for ${productName}`
+        `Please select a value for all attributes for ${productName}`,
       );
     }
   }
@@ -65,7 +65,7 @@ class ProductDescAtrributes extends Component {
             <button
               type="button"
               onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? "attr-btn selected-color" : "attr-btn"}
+              className={size.selected ? 'attr-btn selected-color' : 'attr-btn'}
               key={size.id}
               style={{ backgroundColor: size.displayValue }}
             />
@@ -84,10 +84,10 @@ class ProductDescAtrributes extends Component {
             <button
               type="button"
               onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? "attr-btn selected-size" : "attr-btn"}
+              className={size.selected ? 'attr-btn selected-size' : 'attr-btn'}
               key={size.id}
             >
-              {" "}
+              {' '}
               {size.value}
             </button>
           ))}
@@ -109,12 +109,12 @@ class ProductDescAtrributes extends Component {
     let selectedPrice;
 
     const selectedCurrency = currencyDetails.filter(
-      (currency) => currency.selected === true
+      (currency) => currency.selected === true,
     );
 
     if (selectedCurrency.length > 0) {
       selectedPrice = prices.filter(
-        (price) => price.currency.symbol === selectedCurrency[0].symbol
+        (price) => price.currency.symbol === selectedCurrency[0].symbol,
       );
     } else {
       selectedPrice = prices;
@@ -127,17 +127,15 @@ class ProductDescAtrributes extends Component {
         <article className="attr attr-desc d-flex f-col">
           <h2>{brand}</h2>
           <h3 className="pdp-product-name">{pName}</h3>
-          {attr.map((item) =>
-            item.id === "Color" ? (
-              <div className="pdp-color-attr d-flex " key={item.id}>
-                {this.displayColorAttribute(item)}
-              </div>
-            ) : (
-              <div className="pdp-other-attr" key={item.id}>
-                {this.displayOtherAttributes(item)}
-              </div>
-            )
-          )}
+          {attr.map((item) => (item.id === 'Color' ? (
+            <div className="pdp-color-attr d-flex " key={item.id}>
+              {this.displayColorAttribute(item)}
+            </div>
+          ) : (
+            <div className="pdp-other-attr" key={item.id}>
+              {this.displayOtherAttributes(item)}
+            </div>
+          )))}
         </article>
         <article className="price-details">
           <h4>PRICE: </h4>
@@ -193,5 +191,5 @@ ProductDescAtrributes.defaultProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps()
+  mapDispatchToProps(),
 )(ProductDescAtrributes);

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-plusplus */
+/* eslint-disable default-param-last */
 
 const FETCH_PRODUCTS = 'store/listingPage/FETCH_PRODUCTS';
 const UPDATE_LOADINGSTATE = 'store/listingPage/UPDATE_LOADINGSTATE';
@@ -333,3 +334,4 @@ export default productListReducer;
 /* eslint-enable no-param-reassign */
 /* eslint-enable no-case-declarations */
 /* eslint-enable no-plusplus */
+/* eslint-enable default-param-last */

@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable default-param-last */
 
 const FETCH_CATEGORIES = 'store/header/FETCH_CATEGORIES';
 const FETCH_CURRENCY = 'store/header/FETCH_CURRENCY';
@@ -108,3 +109,4 @@ const categoryReducer = (state = initialState, action) => {
 export default categoryReducer;
 
 /* eslint-enable no-param-reassign */
+/* eslint-enable default-param-last */

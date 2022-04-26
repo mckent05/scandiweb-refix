@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-plusplus */
+/* eslint-disable default-param-last */
 
 const GET_PRODUCT_DETAILS = 'store/descriptionPage/GET_PRODUCT_DETAILS';
 const UPDATE_LOADINGSTATE = 'store/descriptionPage/UPDATE_LOADINGSTATE';
@@ -109,3 +110,4 @@ export default productDescriptionReducer;
 /* eslint-enable no-param-reassign */
 /* eslint-enable no-case-declarations */
 /* eslint-enable no-plusplus */
+/* eslint-enable default-param-last */
