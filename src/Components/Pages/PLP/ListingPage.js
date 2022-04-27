@@ -56,6 +56,7 @@ class ListingPage extends Component {
               stock={product.inStock}
               prices={product.prices}
               gallery={product.gallery}
+              brand={product.brand}
             />
           ))}
         </div>

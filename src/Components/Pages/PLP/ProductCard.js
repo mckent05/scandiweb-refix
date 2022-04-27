@@ -72,6 +72,7 @@ class ProductCard extends Component {
       gallery,
       stock,
       id,
+      brand,
       headerState: { currencyDetails },
     } = this.props;
 
@@ -95,12 +96,13 @@ class ProductCard extends Component {
         onMouseLeave={(e) => e.currentTarget.classList.remove('display-add')}
       >
         <Link to={`/product/${id}`} onClick={() => this.viewProduct(id)}>
-          <div className="img-link-cont d-flex a-center j-center">
+          <div className="img-link-cont product-img-cont d-flex a-center j-center">
             <img className="product-img" src={gallery[0]} alt="img" />
             {stock || <h2 className="out-of-stock">Out of Stock</h2>}
           </div>
         </Link>
         <div className="product-details d-flex f-col">
+          <h2>{brand}</h2>
           <h3 className="product-name">{productName}</h3>
           <div className="product-price">
             {ProductCard.priceDisplay(selectedPrice)}
@@ -123,6 +125,7 @@ ProductCard.propTypes = {
   stock: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   displayOverlay: PropTypes.func.isRequired,
+  brand: PropTypes.string.isRequired,
 };
 
 ProductCard.defaultProps = {

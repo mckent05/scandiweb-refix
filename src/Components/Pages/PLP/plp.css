@@ -21,8 +21,8 @@
 }
 
 .products {
-  width: 286px;
-  height: 344px;
+  width: 336px;
+  height: 394px;
   margin-top: 20px;
   padding: 8px;
   background-color: #fff;
@@ -33,14 +33,13 @@
   box-shadow: 0 2px 3px gainsboro;
 }
 
-.img-link-cont {
-  width: 100%;
-  margin-bottom: 20px;
+.img-link-cont img {
+  width: 306px;
+  height: 288px;
 }
 
-.product-img {
-  width: 200px;
-  height: 220px;
+.product-img-cont img {
+  object-fit: contain;
 }
 
 .out-of-stock {
@@ -53,7 +52,8 @@
 
 .product-details {
   width: 90%;
-  row-gap: 3px;
+  row-gap: 5px;
+  margin-top: 8px;
 }
 
 .product-name {

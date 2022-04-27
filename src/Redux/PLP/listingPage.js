@@ -87,6 +87,7 @@ export const getProducts = (product) => async (dispatch) => {
         inStock
         name
         gallery
+        brand
         attributes {
           id
             name

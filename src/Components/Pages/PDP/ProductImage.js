@@ -40,7 +40,7 @@ class ProductImage extends Component {
 
     return (
       <section className="pdp-thumb-img d-flex">
-        <div className="img-thumbnail d-flex f-col a-center">
+        <div className="img-thumbnail img-thumbnail2 d-flex f-col a-center">
           {imgGallery.map((image, index) => (
             <img
               key={image}
@@ -53,7 +53,7 @@ class ProductImage extends Component {
             />
           ))}
         </div>
-        <div className="pdp-desc-img">
+        <div className="pdp-desc-img pdp-desc-img2">
           <img
             src={imgGallery[imgControl]}
             alt="product-img"

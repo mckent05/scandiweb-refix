@@ -122,7 +122,6 @@ class Header extends Component {
                     value={curr.symbol}
                     key={curr.label}
                   >
-                    {' '}
                     {`${curr.symbol} ${curr.label}`}
                   </option>
                 ))}
