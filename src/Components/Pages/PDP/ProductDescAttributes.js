@@ -7,9 +7,10 @@ import DOMpurify from 'dompurify';
 import {
   removeFromCart,
   addToCart,
-  attrSelector,
 } from '../../../Redux/PLP/listingPage';
 import { displayOverlay } from '../../../Redux/PLP/header';
+import DisplayColorAttributes from '../PLP/DisplayColorAttributes';
+import DisplayOtherAttriutes from '../PLP/DisplayOtherAttriutes';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -18,7 +19,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = () => ({
-  attrSelector,
   addToCart,
   displayOverlay,
   removeFromCart,
@@ -49,51 +49,6 @@ class ProductDescAtrributes extends Component {
         `Please select a value for all attributes for ${productName}`,
       );
     }
-  }
-
-  selectAttribute(displayValue, id) {
-    const { attrSelector } = this.props;
-    attrSelector(displayValue, id);
-  }
-
-  displayColorAttribute(item) {
-    return (
-      <div className="attr-list d-flex j-center a-center f-col" key={item.id}>
-        <h3>{`${item.id}: `}</h3>
-        <div className="attr-btn-cont d-flex a-center j-center">
-          {item.items.map((size) => (
-            <button
-              type="button"
-              onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? 'attr-btn selected-color' : 'attr-btn'}
-              key={size.id}
-              style={{ backgroundColor: size.displayValue }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  displayOtherAttributes(item) {
-    return (
-      <div className="attr-list d-flex j-center a-center f-col" key={item.id}>
-        <h3 className="other-attr-id">{`${item.id}: `}</h3>
-        <div className="attr-btn-cont other-attr-btn d-flex">
-          {item.items.map((size) => (
-            <button
-              type="button"
-              onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? 'attr-btn selected-size' : 'attr-btn'}
-              key={size.id}
-            >
-              {' '}
-              {size.value}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
   }
 
   render() {
@@ -129,11 +84,11 @@ class ProductDescAtrributes extends Component {
           <h3 className="pdp-product-name">{pName}</h3>
           {attr.map((item) => (item.id === 'Color' ? (
             <div className="pdp-color-attr d-flex " key={item.id}>
-              {this.displayColorAttribute(item)}
+              <DisplayColorAttributes item={item} />
             </div>
           ) : (
             <div className="pdp-other-attr" key={item.id}>
-              {this.displayOtherAttributes(item)}
+              <DisplayOtherAttriutes item={item} />
             </div>
           )))}
         </article>
@@ -173,7 +128,6 @@ ProductDescAtrributes.propTypes = {
   headerState: PropTypes.objectOf(String),
   myState: PropTypes.objectOf(String),
   productAttr: PropTypes.arrayOf(Object),
-  attrSelector: PropTypes.func.isRequired,
   addToCart: PropTypes.func.isRequired,
   prices: PropTypes.arrayOf(String).isRequired,
   pName: PropTypes.string.isRequired,

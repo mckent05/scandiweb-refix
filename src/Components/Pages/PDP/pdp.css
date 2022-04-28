@@ -91,7 +91,8 @@
   font-size: 20px;
 }
 
-.pdp-color-attr {
+.product-desc-cont .attr-btn-cont{
+  width: 100%;
   justify-content: flex-start;
 }
 

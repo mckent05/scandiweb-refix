@@ -3,8 +3,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { attrSelector, addToCart } from '../../../Redux/PLP/listingPage';
+import { addToCart } from '../../../Redux/PLP/listingPage';
 import { displayOverlay } from '../../../Redux/PLP/header';
+import DisplayColorAttributes from './DisplayColorAttributes';
+import DisplayOtherAttriutes from './DisplayOtherAttriutes';
 
 const mapStateToProps = (state) => ({
   myState: state.productList,
@@ -12,17 +14,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = () => ({
-  attrSelector,
   addToCart,
   displayOverlay,
 });
 
 class Attributes extends Component {
-  selectAttribute(displayValue, id) {
-    const { attrSelector } = this.props;
-    attrSelector(displayValue, id);
-  }
-
   addProductTocart(productName, attr) {
     const { addToCart, displayOverlay } = this.props;
     displayOverlay(false);
@@ -38,46 +34,6 @@ class Attributes extends Component {
     }
   }
 
-  displayColorAttribute(item) {
-    return (
-      <div className="attr-list d-flex j-center a-center f-col" key={item.id}>
-        <h3>{`${item.id}: `}</h3>
-        <div className="attr-btn-cont d-flex a-center j-center">
-          {item.items.map((size) => (
-            <button
-              type="button"
-              onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? 'attr-btn selected-color' : 'attr-btn'}
-              key={size.id}
-              style={{ backgroundColor: size.displayValue }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  displayOtherAttributes(item) {
-    return (
-      <div className="attr-list d-flex j-center a-center f-col" key={item.id}>
-        <h3>{`${item.id}: `}</h3>
-        <div className="attr-btn-cont d-flex a-center j-center">
-          {item.items.map((size) => (
-            <button
-              type="button"
-              onClick={() => this.selectAttribute(size.displayValue, item.id)}
-              className={size.selected ? 'attr-btn selected-size' : 'attr-btn'}
-              key={size.id}
-            >
-              {' '}
-              {size.value}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const { attr, popup } = this.props;
 
@@ -91,9 +47,9 @@ class Attributes extends Component {
             </h3>
           </div>
           {attr.map((att) => att.attributes.map((item) => (item.id === 'Color' ? (
-            <div key={item.id}>{this.displayColorAttribute(item)}</div>
+            <div key={item.id}><DisplayColorAttributes item={item} /></div>
           ) : (
-            <div key={item.id}>{this.displayOtherAttributes(item)}</div>
+            <div key={item.id}><DisplayOtherAttriutes item={item} /></div>
           ))))}
           <div className="cart-btn-container d-flex a-center j-center">
             <button
@@ -112,7 +68,6 @@ class Attributes extends Component {
 
 Attributes.propTypes = {
   addToCart: PropTypes.func.isRequired,
-  attrSelector: PropTypes.func.isRequired,
   attr: PropTypes.arrayOf(Object),
   popup: PropTypes.bool.isRequired,
   displayOverlay: PropTypes.func.isRequired,
