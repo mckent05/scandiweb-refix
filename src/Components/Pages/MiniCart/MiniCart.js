@@ -24,8 +24,8 @@ class MiniCart extends Component {
     return (
       <div className="mini-cart d-flex f-col a-center j-center">
         <h1 className="cart-page-header">My Cart</h1>
-        <h2 className="cart-header-total d-flex">{`My Bag: ${total} items`}</h2>
-        <div className="cart-content d-flex f-col a-center j-center">
+        <div className="cart-content">
+          <h2 className="cart-header-total d-flex">{`My Bag: ${total} items`}</h2>
           {shoppingCart.length > 0 ? (
             shoppingCart.map((product, index) => (
               <ProductCart
@@ -40,7 +40,7 @@ class MiniCart extends Component {
               />
             ))
           ) : (
-            <h3 className="cart-empty-header">
+            <h3 className="cart-empty-header d-flex a-center j-center">
               Your Cart is empty! Please add products to the cart
             </h3>
           )}

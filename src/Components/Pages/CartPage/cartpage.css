@@ -1,6 +1,12 @@
 .cart-main-page {
   width: 100vw;
   background-color: #fff;
+  min-height: 100vh;
+}
+
+.cart-main-page .cart-content {
+  height: auto;
+  overflow-y: visible;
 }
 
 .cart-main-page .cart-empty-header {
@@ -54,4 +60,6 @@
   box-shadow: none;
   border: none;
   background-color: none;
+  min-height: 100vh;
+  justify-content: flex-start;
 }

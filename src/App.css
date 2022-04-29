@@ -38,7 +38,7 @@ button {
   height: 10vh;
   background-color: #fff;
   padding: 5px 0 5px 0;
-  box-shadow: 0 2px 12px grey;
+  box-shadow: 0 2px 2px gainsboro;
   left: 0;
   top: 0;
   right: 0;
@@ -54,6 +54,11 @@ button {
   margin-left: 60px;
   column-gap: 40px;
   width: 10%;
+}
+
+li {
+  padding: 0;
+  list-style-type: none;
 }
 
 .nav-btn {

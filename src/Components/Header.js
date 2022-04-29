@@ -3,6 +3,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { GiShoppingBag } from 'react-icons/gi';
 import { BsCart } from 'react-icons/bs';
@@ -100,14 +101,15 @@ class Header extends Component {
           <div className="nav-cont d-flex a-center">
             <div className="category d-flex">
               {categories.map((category, index) => (
-                <button
-                  className={index === 0 ? 'nav-btn nav-color' : 'nav-btn'}
-                  key={category.name}
-                  type="button"
-                  onClick={(e) => this.filterCategory(e)}
-                >
-                  {category.name}
-                </button>
+                <NavLink to="/" key={category.name}>
+                  <button
+                    className={index === 0 ? 'nav-btn nav-color' : 'nav-btn'}
+                    type="button"
+                    onClick={(e) => this.filterCategory(e)}
+                  >
+                    {category.name}
+                  </button>
+                </NavLink>
               ))}
             </div>
             <GiShoppingBag className="nav-img" />

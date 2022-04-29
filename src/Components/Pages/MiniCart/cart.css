@@ -16,14 +16,15 @@ a {
 
 .cart-prod-img img {
   margin-top: 15%;
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 95px;
+  object-fit: contain;
 }
 
 .cart-quantity-cont {
   margin-top: 12.5%;
   row-gap: 30px;
-  margin-right: 10px;
+  margin-right: 1px;
 }
 
 .cart-quantity-cont button {
@@ -44,10 +45,14 @@ a {
   border-radius: 4px;
   box-shadow: 0 2px 6px blanchedalmond;
   border: 2px solid black;
+  height: 88vh;
 }
 
 .cart-content {
-  width: 90%;
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  overflow-y: scroll;
 }
 
 .cart-header-total {
@@ -67,7 +72,7 @@ a {
 }
 
 .cart-product-details {
-  width: 80%;
+  width: 95%;
   align-items: flex-start;
 }
 
@@ -86,8 +91,10 @@ h3 {
 }
 
 .cart-product-cont {
-  width: 100%;
-  padding: 10px;
+  position: relative;
+  margin: 0 auto;
+  width: 95%;
+  padding: 10px 0;
   border-top: 1px solid grey;
 }
 
@@ -107,9 +114,13 @@ h3 {
   justify-content: space-between;
 }
 
+.cart-empty-header {
+  height: 70vh;
+}
+
 .cart-btn-price-cont {
-  width: 90%;
-  margin-top: 30px;
+  width: 95%;
+  height: 20vh;
 }
 
 .cart-control {
@@ -120,7 +131,6 @@ h3 {
 .total-cont {
   width: 100%;
   justify-content: space-between;
-  margin-top: 10px;
 }
 
 .attr-btn-cart {
@@ -131,7 +141,7 @@ h3 {
 .checkout-bag-cont {
   width: 100%;
   justify-content: space-between;
-  margin: 30px 0;
+  margin: 15px 0;
 }
 
 .view-bag {
